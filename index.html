@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Nonton Bareng MS - Platform streaming anime, donghua, dan drama China terbaik dengan subtitle Indonesia. Menonton bukan sekadar hiburan, tapi kebersamaan yang mengikat rasa.">
+    <meta name="keywords"
+        content="anime, donghua, drama china, streaming, nonton, subtitle indonesia, solo leveling, demon slayer">
+    <title>Nonton Bareng MS - Streaming Anime, Donghua & Drama China</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23ff4757' rx='15' width='100' height='100'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>MS</text></svg>">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-overlay" id="loadingScreen">
+        <div class="loading-logo">MS</div>
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Menyiapkan cerita terbaik untukmu...</p>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <div class="navbar-logo">MS</div>
+                <h1 class="navbar-title">Nonton <span>Bareng</span></h1>
+            </a>
+
+            <div class="navbar-menu">
+                <ul class="navbar-links">
+                    <li><a href="index.html" class="navbar-link active" data-i18n="nav.home">Beranda</a></li>
+                    <li><a href="browse.html" class="navbar-link" data-i18n="nav.browse">Jelajahi</a></li>
+                    <li><a href="browse.html?type=anime" class="navbar-link" data-i18n="nav.anime">Anime</a></li>
+                    <li><a href="browse.html?type=donghua" class="navbar-link" data-i18n="nav.donghua">Donghua</a></li>
+                    <li><a href="browse.html?type=drama" class="navbar-link" data-i18n="nav.drama">Drama China</a></li>
+                </ul>
+
+                <div class="navbar-actions">
+                    <div class="search-box">
+                        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="M21 21l-4.35-4.35" />
+                        </svg>
+                        <input type="text" class="search-input" placeholder="Cari anime, donghua, drama..."
+                            data-i18n-placeholder="nav.search">
+                    </div>
+
+                    <button class="settings-btn theme-btn" title="Ubah Tema">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+
+                    <div class="lang-dropdown">
+                        <button class="settings-btn lang-btn" title="Bahasa">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <path
+                                    d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                            </svg>
+                        </button>
+                        <div class="lang-dropdown-menu">
+                            <div class="lang-option active" data-lang="id">🇮🇩 Indonesia</div>
+                            <div class="lang-option" data-lang="en">🇺🇸 English</div>
+                        </div>
+                    </div>
+
+                    <div class="auth-buttons">
+                        <button class="btn btn-ghost btn-sm" data-modal="loginModal"
+                            data-i18n="nav.login">Masuk</button>
+                        <button class="btn btn-primary btn-sm" data-modal="registerModal"
+                            data-i18n="nav.register">Daftar</button>
+                    </div>
+
+                    <div class="user-menu" style="display: none;">
+                        <button class="settings-btn">
+                            <span class="user-avatar">U</span>
+                        </button>
+                    </div>
+
+                    <button class="settings-btn mobile-menu-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M3 12h18M3 6h18M3 18h18" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="mobile-menu-header">
+            <div class="navbar-brand">
+                <div class="navbar-logo">MS</div>
+                <span class="navbar-title">Nonton <span>Bareng</span></span>
+            </div>
+            <button class="settings-btn mobile-menu-close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <ul class="mobile-menu-links">
+            <li><a href="index.html" class="mobile-menu-link" data-i18n="nav.home">Beranda</a></li>
+            <li><a href="browse.html" class="mobile-menu-link" data-i18n="nav.browse">Jelajahi</a></li>
+            <li><a href="browse.html?type=anime" class="mobile-menu-link" data-i18n="nav.anime">Anime</a></li>
+            <li><a href="browse.html?type=donghua" class="mobile-menu-link" data-i18n="nav.donghua">Donghua</a></li>
+            <li><a href="browse.html?type=drama" class="mobile-menu-link" data-i18n="nav.drama">Drama China</a></li>
+        </ul>
+        <div style="margin-top: auto; padding: var(--space-lg);">
+            <input type="text" class="form-input search-mobile-input" placeholder="Cari...">
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="https://picsum.photos/seed/hero/1920/1080" alt="Featured Anime">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content animate-fade-up">
+                <span class="hero-badge" data-i18n="hero.badge">🔥 Trending Minggu Ini</span>
+                <h2 class="hero-title">Solo Leveling <span class="gradient-text">Season 2</span></h2>
+                <p class="hero-description">
+                    Sung Jinwoo, yang dulunya adalah hunter paling lemah, kini telah bangkit sebagai Shadow Monarch yang
+                    paling ditakuti. Saksikan perjalanan epiknya menghadapi ancaman baru yang mengancam seluruh dunia.
+                </p>
+                <blockquote class="hero-quote" data-i18n="hero.quote">
+                    "Setiap episode menyimpan cerita, dan setiap cerita lebih indah jika ditonton bersama."
+                </blockquote>
+                <div class="hero-actions">
+                    <a href="watch.html?id=1&ep=1" class="btn btn-primary btn-lg">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                        <span data-i18n="hero.watch">Tonton Sekarang</span>
+                    </a>
+                    <a href="detail.html?id=1" class="btn btn-secondary btn-lg">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 16v-4M12 8h.01" />
+                        </svg>
+                        <span data-i18n="hero.info">Info Selengkapnya</span>
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">500+</div>
+                        <div class="hero-stat-label">Judul</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">10K+</div>
+                        <div class="hero-stat-label">Episode</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">1M+</div>
+                        <div class="hero-stat-label">Penonton</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Welcome Message -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="glass" style="padding: var(--space-xl); border-radius: var(--radius-lg); text-align: center;">
+                <p style="font-size: 1.1rem; color: var(--text-secondary); font-style: italic;" data-i18n="msg.welcome">
+                    Kamu tidak sendirian malam ini. Kami sudah menyiapkan cerita terbaik untukmu.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                            <path
+                                d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z" />
+                        </svg>
+                    </div>
+                    <h2 data-i18n="section.trending">Sedang Trending</h2>
+                </div>
+                <a href="browse.html?sort=trending" class="section-link">
+                    <span data-i18n="section.viewAll">Lihat Semua</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+            <div class="cards-grid stagger" id="trending-content"></div>
+        </div>
+    </section>
+
+    <!-- Ongoing Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-icon" style="background: var(--accent-purple-gradient);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                            <path
+                                d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z" />
+                        </svg>
+                    </div>
+                    <h2 data-i18n="section.ongoing">Sedang Tayang</h2>
+                </div>
+                <a href="browse.html?status=ongoing" class="section-link">
+                    <span data-i18n="section.viewAll">Lihat Semua</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+            <div class="cards-grid stagger" id="ongoing-content"></div>
+        </div>
+    </section>
+
+    <!-- Anime Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-icon" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                            <path
+                                d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z" />
+                        </svg>
+                    </div>
+                    <h2 data-i18n="section.anime">Anime Jepang</h2>
+                </div>
+                <a href="browse.html?type=anime" class="section-link">
+                    <span data-i18n="section.viewAll">Lihat Semua</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+            <div class="cards-grid stagger" id="anime-content"></div>
+        </div>
+    </section>
+
+    <!-- Donghua Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-icon" style="background: linear-gradient(135deg, #00d2d3, #0984e3);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                            <path
+                                d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z" />
+                        </svg>
+                    </div>
+                    <h2 data-i18n="section.donghua">Donghua China</h2>
+                </div>
+                <a href="browse.html?type=donghua" class="section-link">
+                    <span data-i18n="section.viewAll">Lihat Semua</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+            <div class="cards-grid stagger" id="donghua-content"></div>
+        </div>
+    </section>
+
+    <!-- Drama Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-icon" style="background: linear-gradient(135deg, #fd79a8, #e84393);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                            <path
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                    </div>
+                    <h2 data-i18n="section.drama">Drama China</h2>
+                </div>
+                <a href="browse.html?type=drama" class="section-link">
+                    <span data-i18n="section.viewAll">Lihat Semua</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+            <div class="cards-grid stagger" id="drama-content"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-brand-logo">
+                        <div class="navbar-logo">MS</div>
+                        <span class="navbar-title">Nonton <span>Bareng</span></span>
+                    </div>
+                    <p class="footer-brand-text" data-i18n="footer.tagline">
+                        Menonton bukan sekadar hiburan, tapi kebersamaan yang mengikat rasa.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Kategori</h4>
+                    <ul class="footer-links">
+                        <li><a href="browse.html?type=anime" class="footer-link">Anime</a></li>
+                        <li><a href="browse.html?type=donghua" class="footer-link">Donghua</a></li>
+                        <li><a href="browse.html?type=drama" class="footer-link">Drama China</a></li>
+                        <li><a href="browse.html?status=ongoing" class="footer-link">Ongoing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Genre</h4>
+                    <ul class="footer-links">
+                        <li><a href="browse.html?genre=action" class="footer-link">Action</a></li>
+                        <li><a href="browse.html?genre=romance" class="footer-link">Romance</a></li>
+                        <li><a href="browse.html?genre=fantasy" class="footer-link">Fantasy</a></li>
+                        <li><a href="browse.html?genre=comedy" class="footer-link">Comedy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Lainnya</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link" data-i18n="footer.about">Tentang Kami</a></li>
+                        <li><a href="#" class="footer-link" data-i18n="footer.contact">Kontak</a></li>
+                        <li><a href="#" class="footer-link" data-i18n="footer.privacy">Privasi</a></li>
+                        <li><a href="#" class="footer-link" data-i18n="footer.dmca">DMCA</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright" data-i18n="footer.copyright">© 2026 Nonton Bareng MS. All rights reserved.
+                </p>
+                <div class="footer-socials">
+                    <a href="#" class="footer-social"><svg width="18" height="18" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                        </svg></a>
+                    <a href="#" class="footer-social"><svg width="18" height="18" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                        </svg></a>
+                    <a href="#" class="footer-social"><svg width="18" height="18" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                        </svg></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal-backdrop" id="loginModal">
+        <div class="modal">
+            <button class="modal-close">&times;</button>
+            <div class="modal-header">
+                <h3 class="modal-title" data-i18n="auth.login">Masuk</h3>
+                <p class="modal-subtitle" data-i18n="auth.welcome">Selamat datang kembali!</p>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="auth.email">Email</label>
+                        <input type="email" name="email" class="form-input" placeholder="email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="auth.password">Kata Sandi</label>
+                        <input type="password" name="password" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="auth.loginBtn">Masuk
+                        Sekarang</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <p class="text-muted" data-i18n="auth.noAccount">Belum punya akun?</p>
+                <a href="#"
+                    onclick="document.getElementById('loginModal').classList.remove('active'); document.getElementById('registerModal').classList.add('active');"
+                    class="text-accent" data-i18n="nav.register">Daftar</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal-backdrop" id="registerModal">
+        <div class="modal">
+            <button class="modal-close">&times;</button>
+            <div class="modal-header">
+                <h3 class="modal-title" data-i18n="auth.register">Daftar</h3>
+                <p class="modal-subtitle" data-i18n="auth.welcomeNew">Bergabunglah dengan kami!</p>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="auth.username">Nama Pengguna</label>
+                        <input type="text" name="username" class="form-input" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="auth.email">Email</label>
+                        <input type="email" name="email" class="form-input" placeholder="email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="auth.password">Kata Sandi</label>
+                        <input type="password" name="password" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;"
+                        data-i18n="auth.registerBtn">Daftar Sekarang</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <p class="text-muted" data-i18n="auth.hasAccount">Sudah punya akun?</p>
+                <a href="#"
+                    onclick="document.getElementById('registerModal').classList.remove('active'); document.getElementById('loginModal').classList.add('active');"
+                    class="text-accent" data-i18n="nav.login">Masuk</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Hide loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>

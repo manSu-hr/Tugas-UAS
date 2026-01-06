@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming - Nonton Bareng MS</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23ff4757' rx='15' width='100' height='100'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>MS</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        .watch-page {
+            padding-top: 80px;
+        }
+
+        .watch-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-xl);
+        }
+
+        @media (min-width: 1024px) {
+            .watch-grid {
+                grid-template-columns: 1fr 380px;
+            }
+        }
+
+        .player-wrapper {
+            position: relative;
+            background: #000;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .episode-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-md);
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            margin-top: var(--space-md);
+        }
+
+        .watch-info {
+            margin-top: var(--space-xl);
+        }
+
+        .watch-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .watch-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+
+        .sidebar-section {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        .sidebar-title {
+            font-size: 1rem;
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .ep-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .ep-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-sm);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .ep-item:hover,
+        .ep-item.active {
+            background: var(--bg-tertiary);
+        }
+
+        .ep-item.active {
+            border-left: 3px solid var(--accent-red);
+        }
+
+        .ep-thumb {
+            width: 100px;
+            aspect-ratio: 16/9;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .ep-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .ep-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .ep-num {
+            font-size: 0.75rem;
+            color: var(--accent-red);
+        }
+
+        .ep-name {
+            font-size: 0.875rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .server-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+        }
+
+        .server-btn {
+            padding: var(--space-sm) var(--space-md);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+
+        .server-btn:hover,
+        .server-btn.active {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <div class="navbar-logo">MS</div>
+                <h1 class="navbar-title">Nonton <span>Bareng</span></h1>
+            </a>
+            <div class="navbar-menu">
+                <div class="navbar-actions">
+                    <button class="settings-btn theme-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg></button>
+                    <div class="lang-dropdown">
+                        <button class="settings-btn lang-btn"><svg width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M2 12h20" />
+                            </svg></button>
+                        <div class="lang-dropdown-menu">
+                            <div class="lang-option active" data-lang="id">🇮🇩 Indonesia</div>
+                            <div class="lang-option" data-lang="en">🇺🇸 English</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Watch Page -->
+    <main class="watch-page">
+        <div class="container">
+            <div class="watch-grid">
+                <!-- Main Content -->
+                <div class="watch-main">
+                    <div class="player-container player-wrapper" id="playerContainer">
+                        <video class="player-video" id="mainVideo">
+                            <source
+                                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                                type="video/mp4">
+                            <track kind="subtitles" src="" srclang="id" label="Indonesia">
+                            <track kind="subtitles" src="" srclang="en" label="English">
+                        </video>
+                    </div>
+
+                    <div class="episode-nav">
+                        <button class="btn btn-ghost btn-sm" id="prevEpBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                            </svg>
+                            Episode Sebelumnya
+                        </button>
+                        <span id="currentEpLabel">Episode 1</span>
+                        <button class="btn btn-ghost btn-sm" id="nextEpBtn">
+                            Episode Berikutnya
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="watch-info">
+                        <h1 class="watch-title" id="watchTitle">Loading...</h1>
+                        <div class="watch-meta">
+                            <span class="detail-rating">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                </svg>
+                                <span id="watchRating">9.0</span>
+                            </span>
+                            <span id="watchYear">2025</span>
+                            <span id="watchType">Anime</span>
+                        </div>
+                        <div
+                            style="display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-bottom: var(--space-lg);">
+                            <span class="card-badge badge-hd">HD</span>
+                            <span class="card-badge badge-sub">SUB Indonesia</span>
+                            <span class="card-badge badge-dub" id="dubBadge" style="display:none;">DUB Indonesia</span>
+                        </div>
+                        <p class="text-secondary" id="watchSynopsis"></p>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="watch-sidebar">
+                    <!-- Server Selection -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zM7 19c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zM7 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
+                            </svg>
+                            Pilih Server
+                        </h3>
+                        <div class="server-list">
+                            <button class="server-btn active">Server 1</button>
+                            <button class="server-btn">Server 2</button>
+                            <button class="server-btn">Server 3</button>
+                        </div>
+                    </div>
+
+                    <!-- Watch Together -->
+                    <div class="sidebar-section watch-together-panel">
+                        <div class="watch-together-header">
+                            <h3 class="sidebar-title" style="margin: 0;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                                </svg>
+                                Nonton Bareng
+                            </h3>
+                            <span class="text-muted" style="font-size: 0.8rem;">0 online</span>
+                        </div>
+                        <div class="watch-together-chat">
+                            <p class="text-center text-muted" style="padding: var(--space-xl);">Buat room untuk nonton
+                                bareng teman-temanmu!</p>
+                        </div>
+                        <div class="watch-together-input">
+                            <input type="text" placeholder="Kirim pesan..." disabled>
+                            <button class="btn btn-primary btn-sm" id="createRoomBtn">Buat Room</button>
+                        </div>
+                    </div>
+
+                    <!-- Episode List -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l6 4.5-6 4.5z" />
+                            </svg>
+                            Daftar Episode
+                        </h3>
+                        <div class="ep-list" id="epList"></div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: var(--space-2xl);">
+        <div class="container">
+            <div class="footer-bottom" style="border: none; margin: 0; padding: var(--space-lg) 0;">
+                <p class="footer-copyright">© 2026 Nonton Bareng MS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/watch-together.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        class WatchPage {
+            constructor() {
+                this.params = new URLSearchParams(window.location.search);
+                this.contentId = parseInt(this.params.get('id')) || 1;
+                this.currentEp = parseInt(this.params.get('ep')) || 1;
+                this.content = AppData.allContent.find(c => c.id === this.contentId) || AppData.allContent[0];
+                this.episodes = AppData.generateEpisodes(this.content.status === 'ongoing' ? this.content.currentEpisode : this.content.episodes, this.contentId);
+                this.init();
+            }
+
+            init() {
+                this.renderInfo();
+                this.renderEpisodes();
+                this.setupPlayer();
+                this.setupNavigation();
+                this.setupWatchTogether();
+                this.updateEpisode(this.currentEp);
+            }
+
+            renderInfo() {
+                document.getElementById('watchTitle').textContent = this.content.title;
+                document.getElementById('watchRating').textContent = this.content.rating;
+                document.getElementById('watchYear').textContent = this.content.year;
+                document.getElementById('watchType').textContent = this.content.type.charAt(0).toUpperCase() + this.content.type.slice(1);
+                document.getElementById('watchSynopsis').textContent = this.content.synopsis;
+                document.title = `${this.content.title} - Nonton Bareng MS`;
+                if (this.content.hasDubbing) document.getElementById('dubBadge').style.display = 'inline';
+            }
+
+            renderEpisodes() {
+                const list = document.getElementById('epList');
+                list.innerHTML = this.episodes.map((ep, i) => `
+          <div class="ep-item ${i + 1 === this.currentEp ? 'active' : ''}" data-ep="${i + 1}">
+            <div class="ep-thumb"><img src="${ep.thumbnail}" alt="Ep ${i + 1}" loading="lazy"></div>
+            <div class="ep-info">
+              <div class="ep-num">Episode ${i + 1}</div>
+              <div class="ep-name">${ep.title}</div>
+            </div>
+          </div>
+        `).join('');
+
+                list.querySelectorAll('.ep-item').forEach(item => {
+                    item.addEventListener('click', () => this.updateEpisode(parseInt(item.dataset.ep)));
+                });
+            }
+
+            setupPlayer() {
+                const container = document.getElementById('playerContainer');
+                this.player = new VideoPlayer(container);
+            }
+
+            setupNavigation() {
+                document.getElementById('prevEpBtn').addEventListener('click', () => this.prevEpisode());
+                document.getElementById('nextEpBtn').addEventListener('click', () => this.nextEpisode());
+            }
+
+            updateEpisode(epNum) {
+                if (epNum < 1 || epNum > this.episodes.length) return;
+                this.currentEp = epNum;
+                document.getElementById('currentEpLabel').textContent = `Episode ${epNum}`;
+
+                // Update active state
+                document.querySelectorAll('.ep-item').forEach((item, i) => {
+                    item.classList.toggle('active', i + 1 === epNum);
+                });
+
+                // Scroll to active
+                const activeItem = document.querySelector('.ep-item.active');
+                activeItem?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                // Update URL
+                const url = new URL(window.location);
+                url.searchParams.set('ep', epNum);
+                window.history.replaceState({}, '', url);
+
+                // Save to history
+                if (window.app) window.app.addToHistory(this.contentId, epNum);
+            }
+
+            prevEpisode() {
+                if (this.currentEp > 1) this.updateEpisode(this.currentEp - 1);
+            }
+
+            nextEpisode() {
+                if (this.currentEp < this.episodes.length) this.updateEpisode(this.currentEp + 1);
+            }
+
+            setupWatchTogether() {
+                document.getElementById('createRoomBtn').addEventListener('click', () => {
+                    const room = WatchTogether.createRoom(this.contentId);
+                    const link = WatchTogether.getInviteLink();
+                    navigator.clipboard.writeText(link);
+                    if (window.app) window.app.showToast('Room dibuat! Link undangan disalin.', 'success');
+
+                    const chatEl = document.querySelector('.watch-together-chat');
+                    chatEl.innerHTML = '<p class="text-center text-muted" style="padding: var(--space-md);">Room aktif! Share link ke teman.</p>';
+                    document.querySelector('.watch-together-input input').disabled = false;
+                });
+            }
+        }
+
+        window.watchPage = new WatchPage();
+    </script>
+</body>
+
+</html>
