@@ -3,7 +3,7 @@
 const translations = {
   id: {
     'nav.home': 'Beranda', 'nav.browse': 'Jelajahi', 'nav.anime': 'Anime',
-    'nav.donghua': 'Donghua', 'nav.drama': 'Drama China', 'nav.watchlist': 'Daftar Tonton',
+    'nav.donghua': 'Donghua', 'nav.drama': 'Short Drama', 'nav.watchlist': 'Daftar Tonton',
     'nav.login': 'Masuk', 'nav.register': 'Daftar', 'nav.search': 'Cari anime, donghua, drama...',
     'hero.badge': '🔥 Trending Minggu Ini', 'hero.watch': 'Tonton Sekarang', 'hero.info': 'Info Selengkapnya',
     'hero.quote': 'Setiap episode menyimpan cerita, dan setiap cerita lebih indah jika ditonton bersama.',
@@ -16,12 +16,11 @@ const translations = {
     'auth.login': 'Masuk', 'auth.register': 'Daftar', 'auth.email': 'Email', 'auth.password': 'Kata Sandi',
     'settings.dark': 'Gelap', 'settings.ultraDark': 'Ultra Gelap',
     'footer.tagline': 'Menonton bukan sekadar hiburan, tapi kebersamaan yang mengikat rasa.',
-    'msg.welcome': 'Kamu tidak sendirian malam ini. Kami sudah menyiapkan cerita terbaik untukmu.',
-    'ad.skip': 'Lewati Iklan'
+    'msg.welcome': 'Kamu tidak sendirian malam ini. Kami sudah menyiapkan cerita terbaik untukmu.'
   },
   en: {
     'nav.home': 'Home', 'nav.browse': 'Browse', 'nav.anime': 'Anime',
-    'nav.donghua': 'Donghua', 'nav.drama': 'C-Drama', 'nav.watchlist': 'Watchlist',
+    'nav.donghua': 'Donghua', 'nav.drama': 'Short Drama', 'nav.watchlist': 'Watchlist',
     'nav.login': 'Login', 'nav.register': 'Register', 'nav.search': 'Search anime, donghua, drama...',
     'hero.badge': '🔥 Trending This Week', 'hero.watch': 'Watch Now', 'hero.info': 'More Info',
     'hero.quote': 'Every episode holds a story, and every story is more beautiful when watched together.',
@@ -34,71 +33,20 @@ const translations = {
     'auth.login': 'Login', 'auth.register': 'Register', 'auth.email': 'Email', 'auth.password': 'Password',
     'settings.dark': 'Dark', 'settings.ultraDark': 'Ultra Dark',
     'footer.tagline': 'Watching is not just entertainment, but togetherness that binds feelings.',
-    'msg.welcome': 'You\'re not alone tonight. We have prepared the best stories for you.',
-    'ad.skip': 'Skip Ad'
+    'msg.welcome': 'You\'re not alone tonight. We have prepared the best stories for you.'
   }
 };
 
-// Free video sources from public domain
-const freeVideos = {
-  bigBuckBunny: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-  sintel: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
-  tearsOfSteel: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
-  elephantDream: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-  forBiggerBlazes: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-  forBiggerEscapes: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-  forBiggerFun: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
-  forBiggerJoyrides: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
-  forBiggerMeltdowns: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
-  subaruOutback: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
-  volkswagenGTI: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4',
-  weAreGoingOnBullrun: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
-  whatCarCanYouGetForAGrand: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4'
+// Video sources - using embeddable anime/video sources
+const videoSources = {
+  // Sample videos for demo
+  sample1: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+  sample2: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+  sample3: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+  sample4: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4'
 };
 
-// Ad banner data
-const adBanners = [
-  {
-    id: 1,
-    type: 'banner',
-    size: '728x90',
-    image: 'https://placehold.co/728x90/ff4757/ffffff?text=🎬+Nonton+Anime+Gratis+di+Nonton+Bareng+MS!',
-    link: '#',
-    alt: 'Promo Nonton Bareng MS'
-  },
-  {
-    id: 2,
-    type: 'sidebar',
-    size: '300x250',
-    image: 'https://placehold.co/300x250/ffd700/000000?text=✨+Premium+Content+Gratis!',
-    link: '#',
-    alt: 'Premium Content'
-  },
-  {
-    id: 3,
-    type: 'banner',
-    size: '728x90',
-    image: 'https://placehold.co/728x90/a855f7/ffffff?text=🔥+Anime+Terbaru+2025+Subtitle+Indonesia',
-    link: '#',
-    alt: 'Anime Terbaru'
-  },
-  {
-    id: 4,
-    type: 'sidebar',
-    size: '300x250',
-    image: 'https://placehold.co/300x250/6366f1/ffffff?text=📺+Donghua+China+Terbaik!',
-    link: '#',
-    alt: 'Donghua China'
-  },
-  {
-    id: 5,
-    type: 'video',
-    duration: 5,
-    videoUrl: freeVideos.forBiggerFun,
-    skipAfter: 5
-  }
-];
-
+// Anime Data - like Anichin/Animeku
 const animeData = [
   {
     id: 1, title: 'Solo Leveling Season 2', titleJP: '俺だけレベルアップな件', type: 'anime',
@@ -107,7 +55,7 @@ const animeData = [
     synopsis: 'Sung Jinwoo, yang dulunya hunter paling lemah, kini bangkit sebagai Shadow Monarch yang ditakuti. Ikuti perjalanannya dalam menghadapi ancaman dari dunia lain.',
     genre: ['Action', 'Fantasy'], year: 2025, status: 'ongoing', episodes: 12, currentEpisode: 8,
     rating: 9.2, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.sintel
+    videoUrl: videoSources.sample2
   },
   {
     id: 2, title: 'Demon Slayer: Infinity Castle', titleJP: '鬼滅の刃', type: 'anime',
@@ -116,7 +64,7 @@ const animeData = [
     synopsis: 'Pertempuran terakhir melawan Muzan Kibutsuji di Infinity Castle dimulai. Tanjiro dan teman-temannya harus memberikan segalanya untuk menyelamatkan umat manusia.',
     genre: ['Action', 'Fantasy'], year: 2025, status: 'ongoing', episodes: 24, currentEpisode: 15,
     rating: 9.5, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.bigBuckBunny
+    videoUrl: videoSources.sample1
   },
   {
     id: 3, title: 'Jujutsu Kaisen Season 3', titleJP: '呪術廻戦', type: 'anime',
@@ -125,7 +73,7 @@ const animeData = [
     synopsis: 'Culling Game berlanjut. Itadori harus menyelamatkan Megumi dari Sukuna yang telah mengambil alih tubuhnya.',
     genre: ['Action', 'Supernatural'], year: 2025, status: 'ongoing', episodes: 24, currentEpisode: 10,
     rating: 9.1, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.tearsOfSteel
+    videoUrl: videoSources.sample3
   },
   {
     id: 4, title: 'One Piece', titleJP: 'ワンピース', type: 'anime',
@@ -134,7 +82,7 @@ const animeData = [
     synopsis: 'Petualangan Luffy menuju Laugh Tale, tempat One Piece berada. Apakah dia akan menjadi Raja Bajak Laut?',
     genre: ['Action', 'Adventure'], year: 1999, status: 'ongoing', episodes: 1150, currentEpisode: 1150,
     rating: 9.0, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.elephantDream
+    videoUrl: videoSources.sample4
   },
   {
     id: 5, title: 'Attack on Titan Final', titleJP: '進撃の巨人', type: 'anime',
@@ -143,7 +91,7 @@ const animeData = [
     synopsis: 'Rumbling telah dimulai, nasib dunia bergantung pada pilihan Eren dan teman-temannya.',
     genre: ['Action', 'Drama'], year: 2023, status: 'completed', episodes: 87, currentEpisode: 87,
     rating: 9.4, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.sintel
+    videoUrl: videoSources.sample2
   },
   {
     id: 6, title: 'Spy x Family Season 3', titleJP: 'スパイファミリー', type: 'anime',
@@ -152,10 +100,11 @@ const animeData = [
     synopsis: 'Keluarga Forger kembali dengan misi baru yang seru dan lucu. Anya, Loid, dan Yor menghadapi tantangan baru.',
     genre: ['Comedy', 'Action'], year: 2025, status: 'ongoing', episodes: 12, currentEpisode: 6,
     rating: 8.8, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.bigBuckBunny
+    videoUrl: videoSources.sample1
   }
 ];
 
+// Donghua Data
 const donghuaData = [
   {
     id: 101, title: 'Battle Through the Heavens S6', titleCN: '斗破苍穹', type: 'donghua',
@@ -164,7 +113,7 @@ const donghuaData = [
     synopsis: 'Xiao Yan menghadapi musuh baru dari Soul Hall yang mengancam benua. Pertarungan besar akan segera dimulai.',
     genre: ['Action', 'Fantasy'], year: 2025, status: 'ongoing', episodes: 52, currentEpisode: 30,
     rating: 8.9, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.tearsOfSteel
+    videoUrl: videoSources.sample3
   },
   {
     id: 102, title: 'Soul Land 2', titleCN: '斗罗大陆2', type: 'donghua',
@@ -173,7 +122,7 @@ const donghuaData = [
     synopsis: 'Huo Yuhao memulai perjalanan di Soul Land yang telah berubah. Dengan twin martial souls, dia akan mengubah dunia.',
     genre: ['Action', 'Romance'], year: 2024, status: 'ongoing', episodes: 78, currentEpisode: 52,
     rating: 8.7, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.elephantDream
+    videoUrl: videoSources.sample4
   },
   {
     id: 103, title: 'Martial Peak', titleCN: '武炼巅峰', type: 'donghua',
@@ -182,7 +131,7 @@ const donghuaData = [
     synopsis: 'Yang Kai menemukan Black Book yang mengubah nasibnya. Dari murid yang lemah menjadi kultivator legendaris.',
     genre: ['Action', 'Martial Arts'], year: 2024, status: 'ongoing', episodes: 156, currentEpisode: 120,
     rating: 8.5, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.bigBuckBunny
+    videoUrl: videoSources.sample1
   },
   {
     id: 104, title: 'Perfect World', titleCN: '完美世界', type: 'donghua',
@@ -191,7 +140,7 @@ const donghuaData = [
     synopsis: 'Shi Hao bertekad menjadi kultivator terkuat meski Supreme Bone-nya dicuri. Kisah balas dendam dan kekuatan dimulai.',
     genre: ['Action', 'Fantasy'], year: 2024, status: 'ongoing', episodes: 120, currentEpisode: 85,
     rating: 8.6, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.sintel
+    videoUrl: videoSources.sample2
   },
   {
     id: 105, title: 'Link Click Season 3', titleCN: '时光代理人', type: 'donghua',
@@ -200,90 +149,102 @@ const donghuaData = [
     synopsis: 'Cheng Xiaoshi dan Lu Guang menghadapi misteri baru yang berbahaya. Waktu terus berputar, tapi apakah mereka bisa mengubah takdir?',
     genre: ['Mystery', 'Drama'], year: 2025, status: 'ongoing', episodes: 12, currentEpisode: 5,
     rating: 9.0, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.tearsOfSteel
+    videoUrl: videoSources.sample3
   }
 ];
 
+// Short Drama Data - Like DramaBox/iQIYI/Melolo (Vertical Format Short Episodes)
 const dramaData = [
   {
-    id: 201, title: 'Love Between Fairy and Devil', titleCN: '苍兰诀', type: 'drama',
+    id: 201, title: 'CEO Jatuh Cinta Pada Pelayan', titleCN: '霸道总裁爱上我', type: 'drama',
     cover: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400&h=600&fit=crop',
     banner: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=1920&h=800&fit=crop',
-    synopsis: 'Orchid membebaskan Moon Supreme, kisah cinta antara peri dan iblis. Bisakah cinta mengalahkan takdir?',
-    genre: ['Romance', 'Fantasy'], year: 2022, status: 'completed', episodes: 36, currentEpisode: 36,
-    rating: 9.1, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.bigBuckBunny
+    synopsis: 'Gadis biasa bekerja sebagai pelayan di mansion CEO dingin. Tanpa disangka, CEO jatuh cinta padanya.',
+    genre: ['Romance', 'Drama'], year: 2024, status: 'completed', episodes: 80, currentEpisode: 80,
+    rating: 8.9, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
+    videoUrl: videoSources.sample1, isVertical: true, episodeDuration: '1-2 menit'
   },
   {
-    id: 202, title: 'Hidden Love', titleCN: '偷偷藏不住', type: 'drama',
+    id: 202, title: 'Suamiku Ternyata Miliarder', titleCN: '我的老公是亿万富翁', type: 'drama',
     cover: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&h=600&fit=crop',
     banner: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=1920&h=800&fit=crop',
-    synopsis: 'Sang Zhi menyukai teman kakaknya sejak SMP, perasaan itu akhirnya terungkap setelah bertahun-tahun.',
-    genre: ['Romance', 'Youth'], year: 2023, status: 'completed', episodes: 25, currentEpisode: 25,
-    rating: 8.9, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.elephantDream
+    synopsis: 'Menikah dengan pria biasa, tapi ternyata suaminya adalah pewaris kerajaan bisnis tersembunyi.',
+    genre: ['Romance', 'Drama'], year: 2024, status: 'completed', episodes: 100, currentEpisode: 100,
+    rating: 9.1, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
+    videoUrl: videoSources.sample2, isVertical: true, episodeDuration: '1-2 menit'
   },
   {
-    id: 203, title: 'Love Like the Galaxy', titleCN: '星汉灿烂', type: 'drama',
+    id: 203, title: 'Balas Dendam Sang Putri', titleCN: '公主复仇记', type: 'drama',
     cover: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=400&h=600&fit=crop',
     banner: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&h=800&fit=crop',
-    synopsis: 'Cheng Shaoshang bertemu Jenderal Ling Buyi dan perlahan jatuh cinta. Kisah cinta epik di era kerajaan.',
-    genre: ['Historical', 'Romance'], year: 2022, status: 'completed', episodes: 56, currentEpisode: 56,
-    rating: 9.0, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.sintel
+    synopsis: 'Putri kerajaan yang difitnah kembali untuk membalas dendam kepada mereka yang mengkhianatinya.',
+    genre: ['Historical', 'Drama'], year: 2024, status: 'ongoing', episodes: 120, currentEpisode: 75,
+    rating: 9.2, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
+    videoUrl: videoSources.sample3, isVertical: true, episodeDuration: '1-2 menit'
   },
   {
-    id: 204, title: 'The Story of Pearl Girl', titleCN: '珠帘玉幕', type: 'drama',
+    id: 204, title: 'Cinderella Modern', titleCN: '现代灰姑娘', type: 'drama',
     cover: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=600&fit=crop',
     banner: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1920&h=800&fit=crop',
-    synopsis: 'Gadis sederhana terjebak dalam intrik istana yang berbahaya. Akankah dia bisa selamat?',
-    genre: ['Historical', 'Drama'], year: 2025, status: 'ongoing', episodes: 40, currentEpisode: 22,
-    rating: 8.5, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.tearsOfSteel
+    synopsis: 'Gadis miskin bertemu pangeran tampan di pesta topeng. Kisah cinta modern yang penuh drama.',
+    genre: ['Romance', 'Comedy'], year: 2025, status: 'ongoing', episodes: 90, currentEpisode: 45,
+    rating: 8.7, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
+    videoUrl: videoSources.sample4, isVertical: true, episodeDuration: '1-2 menit'
   },
   {
-    id: 205, title: 'Royal Rumors', titleCN: '花间令', type: 'drama',
+    id: 205, title: 'Mantan Suamiku CEO', titleCN: '前夫是总裁', type: 'drama',
     cover: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=600&fit=crop',
     banner: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1920&h=800&fit=crop',
-    synopsis: 'Kisah unik pertukaran jiwa antara pria dan wanita di era dinasti. Komedi romantis yang menghibur.',
-    genre: ['Comedy', 'Romance'], year: 2024, status: 'completed', episodes: 36, currentEpisode: 36,
-    rating: 8.7, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: freeVideos.bigBuckBunny
+    synopsis: 'Setelah bercerai, dia menyadari mantan suaminya adalah CEO perusahaan tempat dia bekerja.',
+    genre: ['Romance', 'Drama'], year: 2024, status: 'completed', episodes: 85, currentEpisode: 85,
+    rating: 8.8, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
+    videoUrl: videoSources.sample1, isVertical: true, episodeDuration: '1-2 menit'
+  },
+  {
+    id: 206, title: 'Istri Kontrak CEO Dingin', titleCN: '冷总裁的契约妻', type: 'drama',
+    cover: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=600&fit=crop',
+    banner: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=1920&h=800&fit=crop',
+    synopsis: 'Terpaksa menikah kontrak dengan CEO yang dingin, tapi perlahan hati mereka meleleh.',
+    genre: ['Romance', 'Drama'], year: 2025, status: 'ongoing', episodes: 100, currentEpisode: 60,
+    rating: 9.0, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
+    videoUrl: videoSources.sample2, isVertical: true, episodeDuration: '1-2 menit'
+  },
+  {
+    id: 207, title: 'Kembalinya Sang Pewaris', titleCN: '继承人归来', type: 'drama',
+    cover: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop',
+    banner: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=800&fit=crop',
+    synopsis: 'Pewaris yang dibuang keluarga kembali dengan identitas baru untuk mengambil apa yang seharusnya miliknya.',
+    genre: ['Drama', 'Revenge'], year: 2024, status: 'completed', episodes: 95, currentEpisode: 95,
+    rating: 9.3, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
+    videoUrl: videoSources.sample3, isVertical: true, episodeDuration: '1-2 menit'
+  },
+  {
+    id: 208, title: 'Cinta Terlarang dengan Bos', titleCN: '与老板的禁忌爱情', type: 'drama',
+    cover: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=600&fit=crop',
+    banner: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1920&h=800&fit=crop',
+    synopsis: 'Karyawan baru jatuh cinta pada bosnya yang tampan. Hubungan terlarang di kantor yang penuh drama.',
+    genre: ['Romance', 'Office'], year: 2025, status: 'ongoing', episodes: 80, currentEpisode: 35,
+    rating: 8.6, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
+    videoUrl: videoSources.sample4, isVertical: true, episodeDuration: '1-2 menit'
   }
 ];
 
 const allContent = [...animeData, ...donghuaData, ...dramaData];
 
-// Generate episodes with different video sources
-const videoPool = [
-  freeVideos.bigBuckBunny,
-  freeVideos.sintel,
-  freeVideos.tearsOfSteel,
-  freeVideos.elephantDream,
-  freeVideos.forBiggerBlazes,
-  freeVideos.forBiggerEscapes,
-  freeVideos.forBiggerFun,
-  freeVideos.forBiggerJoyrides
-];
-
+// Generate episodes
 const generateEpisodes = (total, id) => {
   const content = allContent.find(c => c.id === id);
-  const baseVideo = content?.videoUrl || freeVideos.bigBuckBunny;
+  const baseVideo = content?.videoUrl || videoSources.sample1;
+  const videoPool = [videoSources.sample1, videoSources.sample2, videoSources.sample3, videoSources.sample4];
 
   return Array.from({ length: total }, (_, i) => ({
     id: `${id}-${i + 1}`,
     number: i + 1,
     title: `Episode ${i + 1}`,
-    duration: '24:00',
+    duration: content?.isVertical ? '1:30' : '24:00',
     thumbnail: `https://picsum.photos/seed/${id}${i}/320/180`,
     videoUrl: i === 0 ? baseVideo : videoPool[i % videoPool.length]
   }));
-};
-
-// Get random ad
-const getRandomAd = (type = 'banner') => {
-  const ads = adBanners.filter(ad => ad.type === type);
-  return ads[Math.floor(Math.random() * ads.length)];
 };
 
 // Export
@@ -294,7 +255,5 @@ window.AppData = {
   dramaData,
   allContent,
   generateEpisodes,
-  adBanners,
-  getRandomAd,
-  freeVideos
+  videoSources
 };

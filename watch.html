@@ -26,6 +26,18 @@
             }
         }
 
+        /* Vertical video for short drama */
+        .watch-grid.vertical-mode {
+            grid-template-columns: 1fr;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .watch-grid.vertical-mode .player-wrapper {
+            aspect-ratio: 9/16;
+            max-height: 80vh;
+        }
+
         .player-wrapper {
             position: relative;
             background: #000;
@@ -127,9 +139,19 @@
             flex-shrink: 0;
         }
 
+        /* Vertical thumbnails for short drama */
+        .ep-thumb.vertical {
+            aspect-ratio: 9/16;
+            width: 60px;
+        }
+
         @media (max-width: 480px) {
             .ep-thumb {
                 width: 80px;
+            }
+
+            .ep-thumb.vertical {
+                width: 50px;
             }
         }
 
@@ -156,6 +178,11 @@
             text-overflow: ellipsis;
         }
 
+        .ep-duration {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
         .server-list {
             display: flex;
             flex-wrap: wrap;
@@ -179,17 +206,47 @@
             border-color: var(--accent-red);
         }
 
-        /* Free badge */
-        .free-badge {
+        /* Short drama badge */
+        .short-drama-badge {
             display: inline-flex;
             align-items: center;
             gap: var(--space-xs);
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
             color: white;
             padding: var(--space-xs) var(--space-sm);
             border-radius: var(--radius-sm);
             font-size: 0.75rem;
             font-weight: 600;
+        }
+
+        /* Episode grid for short drama */
+        .ep-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+        }
+
+        .ep-grid-item {
+            padding: var(--space-sm);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 0.875rem;
+        }
+
+        .ep-grid-item:hover,
+        .ep-grid-item.active {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+        }
+
+        @media (max-width: 480px) {
+            .ep-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
     </style>
 </head>
@@ -228,29 +285,10 @@
     <!-- Watch Page -->
     <main class="watch-page">
         <div class="container">
-            <div class="watch-grid">
+            <div class="watch-grid" id="watchGrid">
                 <!-- Main Content -->
                 <div class="watch-main">
                     <div class="player-container player-wrapper" id="playerContainer">
-                        <!-- Video Ad Overlay -->
-                        <div class="video-ad-overlay" id="adOverlay" style="display: none;">
-                            <span class="ad-badge">Iklan</span>
-                            <video id="adVideo" autoplay muted playsinline>
-                                <source
-                                    src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
-                                    type="video/mp4">
-                            </video>
-                            <div class="video-ad-controls">
-                                <span class="ad-countdown" id="adCountdown">Iklan: 5 detik</span>
-                                <button class="skip-ad-btn" id="skipAdBtn" disabled>
-                                    <span id="skipText">Lewati dalam 5</span>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M6 18l8.5-6L6 6v12zm8.5-6v6H16V6h-1.5v6z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
                         <!-- Main Video -->
                         <video class="player-video" id="mainVideo">
                             <source
@@ -266,11 +304,11 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
                             </svg>
-                            Episode Sebelumnya
+                            Sebelumnya
                         </button>
                         <span id="currentEpLabel">Episode 1</span>
                         <button class="btn btn-ghost btn-sm" id="nextEpBtn">
-                            Episode Berikutnya
+                            Berikutnya
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" />
                             </svg>
@@ -289,13 +327,15 @@
                             </span>
                             <span id="watchYear">2025</span>
                             <span id="watchType">Anime</span>
+                            <span id="watchDuration"></span>
                         </div>
                         <div
                             style="display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-bottom: var(--space-lg);">
                             <span class="card-badge badge-hd">HD</span>
                             <span class="card-badge badge-sub">SUB Indonesia</span>
                             <span class="card-badge badge-dub" id="dubBadge" style="display:none;">DUB Indonesia</span>
-                            <span class="free-badge">✓ GRATIS</span>
+                            <span class="short-drama-badge" id="shortDramaBadge" style="display:none;">📱 Short
+                                Drama</span>
                         </div>
                         <p class="text-secondary" id="watchSynopsis"></p>
                     </div>
@@ -303,14 +343,6 @@
 
                 <!-- Sidebar -->
                 <aside class="watch-sidebar">
-                    <!-- Sidebar Ad -->
-                    <div class="sidebar-section sidebar-ad" style="padding: 0;">
-                        <a href="#" class="ad-banner ad-banner-sidebar">
-                            <img src="https://placehold.co/300x250/a855f7/ffffff?text=✨+Semua+Anime+GRATIS!"
-                                alt="Ad Banner" loading="lazy">
-                        </a>
-                    </div>
-
                     <!-- Server Selection -->
                     <div class="sidebar-section">
                         <h3 class="sidebar-title">
@@ -359,6 +391,7 @@
                             Daftar Episode
                         </h3>
                         <div class="ep-list" id="epList"></div>
+                        <div class="ep-grid" id="epGrid" style="display: none;"></div>
                     </div>
                 </aside>
             </div>
@@ -387,58 +420,28 @@
                 this.currentEp = parseInt(this.params.get('ep')) || 1;
                 this.content = AppData.allContent.find(c => c.id === this.contentId) || AppData.allContent[0];
                 this.episodes = AppData.generateEpisodes(this.content.status === 'ongoing' ? this.content.currentEpisode : this.content.episodes, this.contentId);
-                this.adShown = false;
+                this.isVertical = this.content.isVertical || false;
                 this.init();
             }
 
             init() {
+                this.setupLayout();
                 this.renderInfo();
                 this.renderEpisodes();
                 this.setupPlayer();
                 this.setupNavigation();
                 this.setupWatchTogether();
                 this.setupServerSelection();
-                this.showAd();
+                this.updateEpisode(this.currentEp);
             }
 
-            showAd() {
-                if (this.adShown) return;
-
-                const adOverlay = document.getElementById('adOverlay');
-                const adVideo = document.getElementById('adVideo');
-                const skipBtn = document.getElementById('skipAdBtn');
-                const skipText = document.getElementById('skipText');
-                const countdown = document.getElementById('adCountdown');
-
-                adOverlay.style.display = 'flex';
-                adVideo.play();
-
-                let timeLeft = 5;
-                const timer = setInterval(() => {
-                    timeLeft--;
-                    if (timeLeft > 0) {
-                        skipText.textContent = `Lewati dalam ${timeLeft}`;
-                        countdown.textContent = `Iklan: ${timeLeft} detik`;
-                    } else {
-                        clearInterval(timer);
-                        skipBtn.disabled = false;
-                        skipText.textContent = 'Lewati Iklan';
-                        countdown.textContent = 'Siap dilewati';
-                    }
-                }, 1000);
-
-                skipBtn.addEventListener('click', () => {
-                    adOverlay.style.display = 'none';
-                    adVideo.pause();
-                    this.adShown = true;
-                    this.updateEpisode(this.currentEp);
-                });
-
-                adVideo.addEventListener('ended', () => {
-                    adOverlay.style.display = 'none';
-                    this.adShown = true;
-                    this.updateEpisode(this.currentEp);
-                });
+            setupLayout() {
+                const grid = document.getElementById('watchGrid');
+                if (this.isVertical) {
+                    grid.classList.add('vertical-mode');
+                    document.getElementById('shortDramaBadge').style.display = 'inline-flex';
+                    document.getElementById('watchDuration').textContent = this.content.episodeDuration || '1-2 menit';
+                }
             }
 
             renderInfo() {
@@ -452,20 +455,38 @@
             }
 
             renderEpisodes() {
-                const list = document.getElementById('epList');
-                list.innerHTML = this.episodes.map((ep, i) => `
-          <div class="ep-item ${i + 1 === this.currentEp ? 'active' : ''}" data-ep="${i + 1}">
-            <div class="ep-thumb"><img src="${ep.thumbnail}" alt="Ep ${i + 1}" loading="lazy"></div>
-            <div class="ep-info">
-              <div class="ep-num">Episode ${i + 1}</div>
-              <div class="ep-name">${ep.title}</div>
-            </div>
-          </div>
-        `).join('');
+                // Use grid for short drama (many episodes), list for anime/donghua
+                if (this.isVertical && this.episodes.length > 20) {
+                    document.getElementById('epList').style.display = 'none';
+                    document.getElementById('epGrid').style.display = 'grid';
 
-                list.querySelectorAll('.ep-item').forEach(item => {
-                    item.addEventListener('click', () => this.updateEpisode(parseInt(item.dataset.ep)));
-                });
+                    const grid = document.getElementById('epGrid');
+                    grid.innerHTML = this.episodes.map((ep, i) => `
+                        <div class="ep-grid-item ${i + 1 === this.currentEp ? 'active' : ''}" data-ep="${i + 1}">${i + 1}</div>
+                    `).join('');
+
+                    grid.querySelectorAll('.ep-grid-item').forEach(item => {
+                        item.addEventListener('click', () => this.updateEpisode(parseInt(item.dataset.ep)));
+                    });
+                } else {
+                    const list = document.getElementById('epList');
+                    list.innerHTML = this.episodes.map((ep, i) => `
+                        <div class="ep-item ${i + 1 === this.currentEp ? 'active' : ''}" data-ep="${i + 1}">
+                            <div class="ep-thumb ${this.isVertical ? 'vertical' : ''}">
+                                <img src="${ep.thumbnail}" alt="Ep ${i + 1}" loading="lazy">
+                            </div>
+                            <div class="ep-info">
+                                <div class="ep-num">Episode ${i + 1}</div>
+                                <div class="ep-name">${ep.title}</div>
+                                <div class="ep-duration">${ep.duration}</div>
+                            </div>
+                        </div>
+                    `).join('');
+
+                    list.querySelectorAll('.ep-item').forEach(item => {
+                        item.addEventListener('click', () => this.updateEpisode(parseInt(item.dataset.ep)));
+                    });
+                }
             }
 
             setupPlayer() {
@@ -496,18 +517,23 @@
                 // Update video source
                 const episode = this.episodes[epNum - 1];
                 const video = document.getElementById('mainVideo');
-                if (episode && episode.videoUrl && this.adShown) {
+                if (episode && episode.videoUrl) {
                     video.src = episode.videoUrl;
                     video.load();
                 }
 
-                // Update active state
+                // Update active state for grid
+                document.querySelectorAll('.ep-grid-item').forEach((item, i) => {
+                    item.classList.toggle('active', i + 1 === epNum);
+                });
+
+                // Update active state for list
                 document.querySelectorAll('.ep-item').forEach((item, i) => {
                     item.classList.toggle('active', i + 1 === epNum);
                 });
 
                 // Scroll to active
-                const activeItem = document.querySelector('.ep-item.active');
+                const activeItem = document.querySelector('.ep-item.active') || document.querySelector('.ep-grid-item.active');
                 activeItem?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
                 // Update URL
