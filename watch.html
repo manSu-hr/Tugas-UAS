@@ -12,6 +12,7 @@
     <style>
         .watch-page {
             padding-top: 80px;
+            min-height: 100vh;
         }
 
         .watch-grid {
@@ -26,25 +27,73 @@
             }
         }
 
-        /* Vertical video for short drama */
-        .watch-grid.vertical-mode {
-            grid-template-columns: 1fr;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .watch-grid.vertical-mode .player-wrapper {
-            aspect-ratio: 9/16;
-            max-height: 80vh;
-        }
-
+        /* Player Container */
         .player-wrapper {
             position: relative;
             background: #000;
             border-radius: var(--radius-lg);
             overflow: hidden;
+            aspect-ratio: 16/9;
         }
 
+        .player-wrapper.vertical {
+            aspect-ratio: 9/16;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .player-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .player-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .player-loading.hidden {
+            display: none;
+        }
+
+        /* Server Selection */
+        .server-tabs {
+            display: flex;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .server-tab {
+            padding: var(--space-sm) var(--space-lg);
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .server-tab:hover {
+            border-color: var(--accent-red);
+        }
+
+        .server-tab.active {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+            color: white;
+        }
+
+        /* Episode Navigation */
         .episode-nav {
             display: flex;
             justify-content: space-between;
@@ -68,6 +117,7 @@
             }
         }
 
+        /* Watch Info */
         .watch-info {
             margin-top: var(--space-xl);
         }
@@ -75,12 +125,6 @@
         .watch-title {
             font-size: 1.5rem;
             margin-bottom: var(--space-sm);
-        }
-
-        @media (max-width: 480px) {
-            .watch-title {
-                font-size: 1.2rem;
-            }
         }
 
         .watch-meta {
@@ -91,6 +135,7 @@
             margin-bottom: var(--space-lg);
         }
 
+        /* Sidebar */
         .sidebar-section {
             background: var(--bg-card);
             border-radius: var(--radius-lg);
@@ -106,8 +151,9 @@
             gap: var(--space-sm);
         }
 
+        /* Episode List */
         .ep-list {
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
         }
 
@@ -119,15 +165,16 @@
             border-radius: var(--radius-md);
             cursor: pointer;
             transition: all var(--transition-fast);
+            border-left: 3px solid transparent;
         }
 
-        .ep-item:hover,
-        .ep-item.active {
+        .ep-item:hover {
             background: var(--bg-tertiary);
         }
 
         .ep-item.active {
-            border-left: 3px solid var(--accent-red);
+            background: var(--bg-tertiary);
+            border-left-color: var(--accent-red);
         }
 
         .ep-thumb {
@@ -137,22 +184,7 @@
             border-radius: var(--radius-sm);
             overflow: hidden;
             flex-shrink: 0;
-        }
-
-        /* Vertical thumbnails for short drama */
-        .ep-thumb.vertical {
-            aspect-ratio: 9/16;
-            width: 60px;
-        }
-
-        @media (max-width: 480px) {
-            .ep-thumb {
-                width: 80px;
-            }
-
-            .ep-thumb.vertical {
-                width: 50px;
-            }
+            position: relative;
         }
 
         .ep-thumb img {
@@ -161,69 +193,46 @@
             object-fit: cover;
         }
 
+        .ep-thumb .ep-number {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
         .ep-info {
             flex: 1;
             min-width: 0;
         }
 
-        .ep-num {
-            font-size: 0.75rem;
-            color: var(--accent-red);
-        }
-
-        .ep-name {
+        .ep-title {
             font-size: 0.875rem;
+            font-weight: 500;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .ep-duration {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
         }
 
-        .server-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--space-sm);
-        }
-
-        .server-btn {
-            padding: var(--space-sm) var(--space-md);
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            font-size: 0.875rem;
-            color: var(--text-primary);
-        }
-
-        .server-btn:hover,
-        .server-btn.active {
-            background: var(--accent-red);
-            border-color: var(--accent-red);
-        }
-
-        /* Short drama badge */
-        .short-drama-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-xs);
-            background: linear-gradient(135deg, #ff6b9d, #c44569);
-            color: white;
-            padding: var(--space-xs) var(--space-sm);
-            border-radius: var(--radius-sm);
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        /* Episode grid for short drama */
+        /* Episode Grid (for many episodes) */
         .ep-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: var(--space-sm);
+            gap: var(--space-xs);
+        }
+
+        @media (max-width: 480px) {
+            .ep-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         .ep-grid-item {
@@ -241,12 +250,42 @@
         .ep-grid-item.active {
             background: var(--accent-red);
             border-color: var(--accent-red);
+            color: white;
         }
 
-        @media (max-width: 480px) {
-            .ep-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+        /* Badges */
+        .badge-row {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-lg);
+        }
+
+        .badge {
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-hd {
+            background: var(--accent-gold);
+            color: #000;
+        }
+
+        .badge-sub {
+            background: var(--accent-purple);
+            color: white;
+        }
+
+        .badge-vertical {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+        }
+
+        .badge-free {
+            background: #10b981;
+            color: white;
         }
     </style>
 </head>
@@ -260,23 +299,20 @@
                 <h1 class="navbar-title">Nonton <span>Bareng</span></h1>
             </a>
             <div class="navbar-menu">
+                <ul class="navbar-links">
+                    <li><a href="index.html" class="navbar-link">Beranda</a></li>
+                    <li><a href="browse.html?type=anime" class="navbar-link">Anime</a></li>
+                    <li><a href="browse.html?type=donghua" class="navbar-link">Donghua</a></li>
+                    <li><a href="browse.html?type=drama" class="navbar-link">Short Drama</a></li>
+                </ul>
                 <div class="navbar-actions">
-                    <button class="settings-btn theme-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2">
+                    <button class="settings-btn theme-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
                             <path
                                 d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                        </svg></button>
-                    <div class="lang-dropdown">
-                        <button class="settings-btn lang-btn"><svg width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10" />
-                                <path d="M2 12h20" />
-                            </svg></button>
-                        <div class="lang-dropdown-menu">
-                            <div class="lang-option active" data-lang="id">🇮🇩 Indonesia</div>
-                            <div class="lang-option" data-lang="en">🇺🇸 English</div>
-                        </div>
-                    </div>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -288,17 +324,24 @@
             <div class="watch-grid" id="watchGrid">
                 <!-- Main Content -->
                 <div class="watch-main">
-                    <div class="player-container player-wrapper" id="playerContainer">
-                        <!-- Main Video -->
-                        <video class="player-video" id="mainVideo">
-                            <source
-                                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                                type="video/mp4">
-                            <track kind="subtitles" src="" srclang="id" label="Indonesia">
-                            <track kind="subtitles" src="" srclang="en" label="English">
-                        </video>
+                    <!-- Video Player -->
+                    <div class="player-wrapper" id="playerWrapper">
+                        <div class="player-loading" id="playerLoading">
+                            <span>⏳ Memuat video...</span>
+                        </div>
+                        <iframe id="playerIframe" class="player-iframe" allowfullscreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            style="display: none;">
+                        </iframe>
+                        <video id="playerVideo" class="player-iframe" controls style="display: none;"></video>
                     </div>
 
+                    <!-- Server Selection -->
+                    <div class="server-tabs" id="serverTabs">
+                        <!-- Generated by JS -->
+                    </div>
+
+                    <!-- Episode Navigation -->
                     <div class="episode-nav">
                         <button class="btn btn-ghost btn-sm" id="prevEpBtn">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -315,11 +358,12 @@
                         </button>
                     </div>
 
+                    <!-- Watch Info -->
                     <div class="watch-info">
                         <h1 class="watch-title" id="watchTitle">Loading...</h1>
                         <div class="watch-meta">
                             <span class="detail-rating">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-gold)">
                                     <path
                                         d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                                 </svg>
@@ -327,14 +371,13 @@
                             </span>
                             <span id="watchYear">2025</span>
                             <span id="watchType">Anime</span>
-                            <span id="watchDuration"></span>
+                            <span id="watchEpisodes"></span>
                         </div>
-                        <div
-                            style="display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-bottom: var(--space-lg);">
-                            <span class="card-badge badge-hd">HD</span>
-                            <span class="card-badge badge-sub">SUB Indonesia</span>
-                            <span class="card-badge badge-dub" id="dubBadge" style="display:none;">DUB Indonesia</span>
-                            <span class="short-drama-badge" id="shortDramaBadge" style="display:none;">📱 Short
+                        <div class="badge-row">
+                            <span class="badge badge-hd">HD</span>
+                            <span class="badge badge-sub">SUB ID</span>
+                            <span class="badge badge-free">GRATIS</span>
+                            <span class="badge badge-vertical" id="verticalBadge" style="display:none;">📱 Short
                                 Drama</span>
                         </div>
                         <p class="text-secondary" id="watchSynopsis"></p>
@@ -343,44 +386,6 @@
 
                 <!-- Sidebar -->
                 <aside class="watch-sidebar">
-                    <!-- Server Selection -->
-                    <div class="sidebar-section">
-                        <h3 class="sidebar-title">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zM7 19c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zM7 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
-                            </svg>
-                            Pilih Server
-                        </h3>
-                        <div class="server-list">
-                            <button class="server-btn active" data-server="1">Server 1</button>
-                            <button class="server-btn" data-server="2">Server 2</button>
-                            <button class="server-btn" data-server="3">Server 3</button>
-                        </div>
-                    </div>
-
-                    <!-- Watch Together -->
-                    <div class="sidebar-section watch-together-panel">
-                        <div class="watch-together-header">
-                            <h3 class="sidebar-title" style="margin: 0;">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                    <path
-                                        d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-                                </svg>
-                                Nonton Bareng
-                            </h3>
-                            <span class="text-muted" style="font-size: 0.8rem;">0 online</span>
-                        </div>
-                        <div class="watch-together-chat">
-                            <p class="text-center text-muted" style="padding: var(--space-xl);">Buat room untuk nonton
-                                bareng teman-temanmu!</p>
-                        </div>
-                        <div class="watch-together-input">
-                            <input type="text" placeholder="Kirim pesan..." disabled>
-                            <button class="btn btn-primary btn-sm" id="createRoomBtn">Buat Room</button>
-                        </div>
-                    </div>
-
                     <!-- Episode List -->
                     <div class="sidebar-section">
                         <h3 class="sidebar-title">
@@ -388,10 +393,28 @@
                                 <path
                                     d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l6 4.5-6 4.5z" />
                             </svg>
-                            Daftar Episode
+                            Daftar Episode (<span id="epCount">0</span>)
                         </h3>
                         <div class="ep-list" id="epList"></div>
                         <div class="ep-grid" id="epGrid" style="display: none;"></div>
+                    </div>
+
+                    <!-- Watch Together -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                            </svg>
+                            Nonton Bareng
+                        </h3>
+                        <p class="text-muted" style="font-size: 0.875rem;">
+                            Tonton bersama teman-temanmu secara realtime!
+                        </p>
+                        <button class="btn btn-primary btn-sm" id="createRoomBtn"
+                            style="width: 100%; margin-top: var(--space-md);">
+                            Buat Room
+                        </button>
                     </div>
                 </aside>
             </div>
@@ -409,8 +432,6 @@
 
     <script src="js/data.js"></script>
     <script src="js/auth.js"></script>
-    <script src="js/player.js"></script>
-    <script src="js/watch-together.js"></script>
     <script src="js/app.js"></script>
     <script>
         class WatchPage {
@@ -418,8 +439,12 @@
                 this.params = new URLSearchParams(window.location.search);
                 this.contentId = parseInt(this.params.get('id')) || 1;
                 this.currentEp = parseInt(this.params.get('ep')) || 1;
+                this.currentServer = 0;
                 this.content = AppData.allContent.find(c => c.id === this.contentId) || AppData.allContent[0];
-                this.episodes = AppData.generateEpisodes(this.content.status === 'ongoing' ? this.content.currentEpisode : this.content.episodes, this.contentId);
+                this.episodes = AppData.generateEpisodes(
+                    this.content.status === 'ongoing' ? this.content.currentEpisode : this.content.episodes,
+                    this.contentId
+                );
                 this.isVertical = this.content.isVertical || false;
                 this.init();
             }
@@ -427,20 +452,16 @@
             init() {
                 this.setupLayout();
                 this.renderInfo();
+                this.renderServers();
                 this.renderEpisodes();
-                this.setupPlayer();
                 this.setupNavigation();
-                this.setupWatchTogether();
-                this.setupServerSelection();
-                this.updateEpisode(this.currentEp);
+                this.loadVideo();
             }
 
             setupLayout() {
-                const grid = document.getElementById('watchGrid');
                 if (this.isVertical) {
-                    grid.classList.add('vertical-mode');
-                    document.getElementById('shortDramaBadge').style.display = 'inline-flex';
-                    document.getElementById('watchDuration').textContent = this.content.episodeDuration || '1-2 menit';
+                    document.getElementById('playerWrapper').classList.add('vertical');
+                    document.getElementById('verticalBadge').style.display = 'inline-flex';
                 }
             }
 
@@ -449,14 +470,34 @@
                 document.getElementById('watchRating').textContent = this.content.rating;
                 document.getElementById('watchYear').textContent = this.content.year;
                 document.getElementById('watchType').textContent = this.content.type.charAt(0).toUpperCase() + this.content.type.slice(1);
+                document.getElementById('watchEpisodes').textContent = `${this.episodes.length} Episode`;
                 document.getElementById('watchSynopsis').textContent = this.content.synopsis;
+                document.getElementById('epCount').textContent = this.episodes.length;
                 document.title = `${this.content.title} - Nonton Bareng MS`;
-                if (this.content.hasDubbing) document.getElementById('dubBadge').style.display = 'inline';
+            }
+
+            renderServers() {
+                const servers = this.content.servers || [];
+                const container = document.getElementById('serverTabs');
+                container.innerHTML = servers.map((srv, i) => `
+                    <button class="server-tab ${i === 0 ? 'active' : ''}" data-server="${i}">
+                        ${srv.name}
+                    </button>
+                `).join('');
+
+                container.querySelectorAll('.server-tab').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        container.querySelectorAll('.server-tab').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.currentServer = parseInt(btn.dataset.server);
+                        this.loadVideo();
+                    });
+                });
             }
 
             renderEpisodes() {
-                // Use grid for short drama (many episodes), list for anime/donghua
-                if (this.isVertical && this.episodes.length > 20) {
+                // Use grid for many episodes (>20), list for fewer
+                if (this.episodes.length > 20) {
                     document.getElementById('epList').style.display = 'none';
                     document.getElementById('epGrid').style.display = 'grid';
 
@@ -466,108 +507,110 @@
                     `).join('');
 
                     grid.querySelectorAll('.ep-grid-item').forEach(item => {
-                        item.addEventListener('click', () => this.updateEpisode(parseInt(item.dataset.ep)));
+                        item.addEventListener('click', () => this.changeEpisode(parseInt(item.dataset.ep)));
                     });
                 } else {
                     const list = document.getElementById('epList');
                     list.innerHTML = this.episodes.map((ep, i) => `
                         <div class="ep-item ${i + 1 === this.currentEp ? 'active' : ''}" data-ep="${i + 1}">
-                            <div class="ep-thumb ${this.isVertical ? 'vertical' : ''}">
+                            <div class="ep-thumb">
                                 <img src="${ep.thumbnail}" alt="Ep ${i + 1}" loading="lazy">
+                                <span class="ep-number">${i + 1}</span>
                             </div>
                             <div class="ep-info">
-                                <div class="ep-num">Episode ${i + 1}</div>
-                                <div class="ep-name">${ep.title}</div>
+                                <div class="ep-title">Episode ${i + 1}</div>
                                 <div class="ep-duration">${ep.duration}</div>
                             </div>
                         </div>
                     `).join('');
 
                     list.querySelectorAll('.ep-item').forEach(item => {
-                        item.addEventListener('click', () => this.updateEpisode(parseInt(item.dataset.ep)));
+                        item.addEventListener('click', () => this.changeEpisode(parseInt(item.dataset.ep)));
                     });
                 }
             }
 
-            setupPlayer() {
-                const container = document.getElementById('playerContainer');
-                this.player = new VideoPlayer(container);
+            loadVideo() {
+                const loading = document.getElementById('playerLoading');
+                const iframe = document.getElementById('playerIframe');
+                const video = document.getElementById('playerVideo');
+
+                loading.classList.remove('hidden');
+                iframe.style.display = 'none';
+                video.style.display = 'none';
+
+                const servers = this.content.servers || [];
+                const server = servers[this.currentServer] || servers[0];
+
+                if (!server) {
+                    loading.innerHTML = '<span>❌ Video tidak tersedia</span>';
+                    return;
+                }
+
+                setTimeout(() => {
+                    if (server.type === 'youtube' || server.type === 'dailymotion') {
+                        // Use iframe for embed sources
+                        let embedUrl;
+                        if (server.type === 'youtube') {
+                            embedUrl = `https://www.youtube.com/embed/${server.id}?autoplay=0&rel=0`;
+                        } else {
+                            embedUrl = `https://www.dailymotion.com/embed/video/${server.id}`;
+                        }
+                        iframe.src = embedUrl;
+                        iframe.style.display = 'block';
+                        iframe.onload = () => loading.classList.add('hidden');
+                    } else {
+                        // Use video element for direct sources
+                        video.src = server.url;
+                        video.style.display = 'block';
+                        video.onloadeddata = () => loading.classList.add('hidden');
+                    }
+                }, 500);
             }
 
-            setupNavigation() {
-                document.getElementById('prevEpBtn').addEventListener('click', () => this.prevEpisode());
-                document.getElementById('nextEpBtn').addEventListener('click', () => this.nextEpisode());
-            }
-
-            setupServerSelection() {
-                document.querySelectorAll('.server-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        if (window.app) window.app.showToast(`Beralih ke Server ${btn.dataset.server}`, 'info');
-                    });
-                });
-            }
-
-            updateEpisode(epNum) {
+            changeEpisode(epNum) {
                 if (epNum < 1 || epNum > this.episodes.length) return;
                 this.currentEp = epNum;
+
+                // Update label
                 document.getElementById('currentEpLabel').textContent = `Episode ${epNum}`;
 
-                // Update video source
-                const episode = this.episodes[epNum - 1];
-                const video = document.getElementById('mainVideo');
-                if (episode && episode.videoUrl) {
-                    video.src = episode.videoUrl;
-                    video.load();
-                }
-
-                // Update active state for grid
-                document.querySelectorAll('.ep-grid-item').forEach((item, i) => {
-                    item.classList.toggle('active', i + 1 === epNum);
-                });
-
-                // Update active state for list
-                document.querySelectorAll('.ep-item').forEach((item, i) => {
+                // Update active states
+                document.querySelectorAll('.ep-grid-item, .ep-item').forEach((item, i) => {
                     item.classList.toggle('active', i + 1 === epNum);
                 });
 
                 // Scroll to active
-                const activeItem = document.querySelector('.ep-item.active') || document.querySelector('.ep-grid-item.active');
-                activeItem?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                const active = document.querySelector('.ep-item.active, .ep-grid-item.active');
+                active?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
                 // Update URL
                 const url = new URL(window.location);
                 url.searchParams.set('ep', epNum);
                 window.history.replaceState({}, '', url);
 
-                // Save to history
-                if (window.app) window.app.addToHistory(this.contentId, epNum);
+                // Reload video with same server
+                this.loadVideo();
             }
 
-            prevEpisode() {
-                if (this.currentEp > 1) this.updateEpisode(this.currentEp - 1);
-            }
+            setupNavigation() {
+                document.getElementById('prevEpBtn').addEventListener('click', () => {
+                    if (this.currentEp > 1) this.changeEpisode(this.currentEp - 1);
+                });
+                document.getElementById('nextEpBtn').addEventListener('click', () => {
+                    if (this.currentEp < this.episodes.length) this.changeEpisode(this.currentEp + 1);
+                });
 
-            nextEpisode() {
-                if (this.currentEp < this.episodes.length) this.updateEpisode(this.currentEp + 1);
-            }
-
-            setupWatchTogether() {
                 document.getElementById('createRoomBtn').addEventListener('click', () => {
-                    const room = WatchTogether.createRoom(this.contentId);
-                    const link = WatchTogether.getInviteLink();
-                    navigator.clipboard.writeText(link);
-                    if (window.app) window.app.showToast('Room dibuat! Link undangan disalin.', 'success');
-
-                    const chatEl = document.querySelector('.watch-together-chat');
-                    chatEl.innerHTML = '<p class="text-center text-muted" style="padding: var(--space-md);">Room aktif! Share link ke teman.</p>';
-                    document.querySelector('.watch-together-input input').disabled = false;
+                    alert('Fitur Watch Together akan segera hadir!');
                 });
             }
         }
 
-        window.watchPage = new WatchPage();
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            window.watchPage = new WatchPage();
+        });
     </script>
 </body>
 

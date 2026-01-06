@@ -1,4 +1,5 @@
 /* NONTON BARENG MS - DATA */
+/* Streaming Website Data - Like Anichin, DramaBox, Melolo */
 
 const translations = {
   id: {
@@ -9,6 +10,7 @@ const translations = {
     'hero.quote': 'Setiap episode menyimpan cerita, dan setiap cerita lebih indah jika ditonton bersama.',
     'section.trending': 'Sedang Trending', 'section.ongoing': 'Sedang Tayang',
     'section.completed': 'Sudah Tamat', 'section.popular': 'Paling Populer',
+    'section.latest': 'Rilis Terbaru',
     'section.viewAll': 'Lihat Semua', 'player.quality': 'Kualitas', 'player.subtitle': 'Subtitle',
     'player.subtitle.off': 'Nonaktif', 'player.subtitle.id': 'Indonesia', 'player.subtitle.en': 'English',
     'detail.watch': 'Tonton Sekarang', 'detail.addWatchlist': 'Tambah ke Daftar',
@@ -26,6 +28,7 @@ const translations = {
     'hero.quote': 'Every episode holds a story, and every story is more beautiful when watched together.',
     'section.trending': 'Trending Now', 'section.ongoing': 'Currently Airing',
     'section.completed': 'Completed', 'section.popular': 'Most Popular',
+    'section.latest': 'Latest Release',
     'section.viewAll': 'View All', 'player.quality': 'Quality', 'player.subtitle': 'Subtitle',
     'player.subtitle.off': 'Off', 'player.subtitle.id': 'Indonesian', 'player.subtitle.en': 'English',
     'detail.watch': 'Watch Now', 'detail.addWatchlist': 'Add to List',
@@ -37,214 +40,497 @@ const translations = {
   }
 };
 
-// Video sources - using embeddable anime/video sources
-const videoSources = {
-  // Sample videos for demo
-  sample1: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-  sample2: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
-  sample3: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
-  sample4: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4'
+// Embed video sources (YouTube, Dailymotion, Direct)
+const embedSources = {
+  // YouTube anime/donghua trailers & clips (legal public content)
+  youtube: (id) => `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`,
+
+  // Dailymotion 
+  dailymotion: (id) => `https://www.dailymotion.com/embed/video/${id}?autoplay=1`,
+
+  // Direct video (sample/public domain)
+  direct: {
+    bigBuckBunny: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    sintel: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+    tearsOfSteel: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+    elephantDream: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4'
+  }
 };
 
-// Anime Data - like Anichin/Animeku
-const animeData = [
-  {
-    id: 1, title: 'Solo Leveling Season 2', titleJP: '俺だけレベルアップな件', type: 'anime',
-    cover: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1920&h=800&fit=crop',
-    synopsis: 'Sung Jinwoo, yang dulunya hunter paling lemah, kini bangkit sebagai Shadow Monarch yang ditakuti. Ikuti perjalanannya dalam menghadapi ancaman dari dunia lain.',
-    genre: ['Action', 'Fantasy'], year: 2025, status: 'ongoing', episodes: 12, currentEpisode: 8,
-    rating: 9.2, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: videoSources.sample2
-  },
-  {
-    id: 2, title: 'Demon Slayer: Infinity Castle', titleJP: '鬼滅の刃', type: 'anime',
-    cover: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1920&h=800&fit=crop',
-    synopsis: 'Pertempuran terakhir melawan Muzan Kibutsuji di Infinity Castle dimulai. Tanjiro dan teman-temannya harus memberikan segalanya untuk menyelamatkan umat manusia.',
-    genre: ['Action', 'Fantasy'], year: 2025, status: 'ongoing', episodes: 24, currentEpisode: 15,
-    rating: 9.5, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: videoSources.sample1
-  },
-  {
-    id: 3, title: 'Jujutsu Kaisen Season 3', titleJP: '呪術廻戦', type: 'anime',
-    cover: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=1920&h=800&fit=crop',
-    synopsis: 'Culling Game berlanjut. Itadori harus menyelamatkan Megumi dari Sukuna yang telah mengambil alih tubuhnya.',
-    genre: ['Action', 'Supernatural'], year: 2025, status: 'ongoing', episodes: 24, currentEpisode: 10,
-    rating: 9.1, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: videoSources.sample3
-  },
-  {
-    id: 4, title: 'One Piece', titleJP: 'ワンピース', type: 'anime',
-    cover: 'https://images.unsplash.com/photo-1519638399535-1b036603ac77?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1519638399535-1b036603ac77?w=1920&h=800&fit=crop',
-    synopsis: 'Petualangan Luffy menuju Laugh Tale, tempat One Piece berada. Apakah dia akan menjadi Raja Bajak Laut?',
-    genre: ['Action', 'Adventure'], year: 1999, status: 'ongoing', episodes: 1150, currentEpisode: 1150,
-    rating: 9.0, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: videoSources.sample4
-  },
-  {
-    id: 5, title: 'Attack on Titan Final', titleJP: '進撃の巨人', type: 'anime',
-    cover: 'https://images.unsplash.com/photo-1541562232579-512a21360020?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1541562232579-512a21360020?w=1920&h=800&fit=crop',
-    synopsis: 'Rumbling telah dimulai, nasib dunia bergantung pada pilihan Eren dan teman-temannya.',
-    genre: ['Action', 'Drama'], year: 2023, status: 'completed', episodes: 87, currentEpisode: 87,
-    rating: 9.4, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: videoSources.sample2
-  },
-  {
-    id: 6, title: 'Spy x Family Season 3', titleJP: 'スパイファミリー', type: 'anime',
-    cover: 'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=1920&h=800&fit=crop',
-    synopsis: 'Keluarga Forger kembali dengan misi baru yang seru dan lucu. Anya, Loid, dan Yor menghadapi tantangan baru.',
-    genre: ['Comedy', 'Action'], year: 2025, status: 'ongoing', episodes: 12, currentEpisode: 6,
-    rating: 8.8, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: videoSources.sample1
-  }
-];
-
-// Donghua Data
+// Donghua Data (Like Anichin)
 const donghuaData = [
   {
-    id: 101, title: 'Battle Through the Heavens S6', titleCN: '斗破苍穹', type: 'donghua',
-    cover: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1920&h=800&fit=crop',
-    synopsis: 'Xiao Yan menghadapi musuh baru dari Soul Hall yang mengancam benua. Pertarungan besar akan segera dimulai.',
-    genre: ['Action', 'Fantasy'], year: 2025, status: 'ongoing', episodes: 52, currentEpisode: 30,
-    rating: 8.9, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: videoSources.sample3
+    id: 101,
+    title: 'Soul Land / Douluo Dalu',
+    titleCN: '斗罗大陆',
+    type: 'donghua',
+    cover: 'https://i.ytimg.com/vi/n7JRHjLU9Ps/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/n7JRHjLU9Ps/maxresdefault.jpg',
+    synopsis: 'Tang San, seorang master senjata tersembunyi dari Tang Sect, terlahir kembali di dunia dimana kekuatan spiritual adalah segalanya. Dengan pengetahuan dari kehidupan sebelumnya, dia bertekad menjadi Douluo terkuat.',
+    genre: ['Action', 'Fantasy', 'Martial Arts'],
+    year: 2018,
+    status: 'ongoing',
+    episodes: 300,
+    currentEpisode: 280,
+    rating: 9.0,
+    hasSubtitle: true,
+    subtitleLang: ['id', 'en'],
+    // YouTube embed for this series (public trailer/clip)
+    embedType: 'youtube',
+    embedId: 'n7JRHjLU9Ps',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'n7JRHjLU9Ps' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.sintel }
+    ]
   },
   {
-    id: 102, title: 'Soul Land 2', titleCN: '斗罗大陆2', type: 'donghua',
-    cover: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1920&h=800&fit=crop',
-    synopsis: 'Huo Yuhao memulai perjalanan di Soul Land yang telah berubah. Dengan twin martial souls, dia akan mengubah dunia.',
-    genre: ['Action', 'Romance'], year: 2024, status: 'ongoing', episodes: 78, currentEpisode: 52,
-    rating: 8.7, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: videoSources.sample4
+    id: 102,
+    title: 'Battle Through the Heavens',
+    titleCN: '斗破苍穹',
+    type: 'donghua',
+    cover: 'https://i.ytimg.com/vi/ByXuk2STSHU/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/ByXuk2STSHU/maxresdefault.jpg',
+    synopsis: 'Xiao Yan pernah menjadi jenius kultivasi, tapi tiba-tiba kehilangan semua kekuatannya. Setelah bertemu kakek misterius dalam cincinnya, dia memulai perjalanan untuk mendapatkan kembali kehormatan dan kekuatannya.',
+    genre: ['Action', 'Fantasy', 'Romance'],
+    year: 2017,
+    status: 'ongoing',
+    episodes: 150,
+    currentEpisode: 120,
+    rating: 8.9,
+    hasSubtitle: true,
+    subtitleLang: ['id', 'en'],
+    embedType: 'youtube',
+    embedId: 'ByXuk2STSHU',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'ByXuk2STSHU' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.bigBuckBunny }
+    ]
   },
   {
-    id: 103, title: 'Martial Peak', titleCN: '武炼巅峰', type: 'donghua',
-    cover: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=800&fit=crop',
-    synopsis: 'Yang Kai menemukan Black Book yang mengubah nasibnya. Dari murid yang lemah menjadi kultivator legendaris.',
-    genre: ['Action', 'Martial Arts'], year: 2024, status: 'ongoing', episodes: 156, currentEpisode: 120,
-    rating: 8.5, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: videoSources.sample1
+    id: 103,
+    title: 'Martial Peak / Wu Lian Dian Feng',
+    titleCN: '武炼巅峰',
+    type: 'donghua',
+    cover: 'https://i.ytimg.com/vi/eoGNWweZJsE/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/eoGNWweZJsE/maxresdefault.jpg',
+    synopsis: 'Yang Kai menemukan Black Book misterius yang mengubah takdirnya. Dari murid terbawah, dia bertekad mencapai puncak dunia kultivasi.',
+    genre: ['Action', 'Fantasy', 'Martial Arts'],
+    year: 2020,
+    status: 'ongoing',
+    episodes: 200,
+    currentEpisode: 156,
+    rating: 8.5,
+    hasSubtitle: true,
+    subtitleLang: ['id', 'en'],
+    embedType: 'youtube',
+    embedId: 'eoGNWweZJsE',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'eoGNWweZJsE' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.tearsOfSteel }
+    ]
   },
   {
-    id: 104, title: 'Perfect World', titleCN: '完美世界', type: 'donghua',
-    cover: 'https://images.unsplash.com/photo-1502786129293-79981df4e689?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1502786129293-79981df4e689?w=1920&h=800&fit=crop',
-    synopsis: 'Shi Hao bertekad menjadi kultivator terkuat meski Supreme Bone-nya dicuri. Kisah balas dendam dan kekuatan dimulai.',
-    genre: ['Action', 'Fantasy'], year: 2024, status: 'ongoing', episodes: 120, currentEpisode: 85,
-    rating: 8.6, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: videoSources.sample2
+    id: 104,
+    title: 'Perfect World',
+    titleCN: '完美世界',
+    type: 'donghua',
+    cover: 'https://i.ytimg.com/vi/SkIwLPr_T5g/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/SkIwLPr_T5g/maxresdefault.jpg',
+    synopsis: 'Shi Hao, anak dengan Supreme Bone yang dicuri oleh keluarganya sendiri, bertekad menjadi kultivator terkuat dan membalas dendam.',
+    genre: ['Action', 'Fantasy', 'Adventure'],
+    year: 2021,
+    status: 'ongoing',
+    episodes: 160,
+    currentEpisode: 120,
+    rating: 8.7,
+    hasSubtitle: true,
+    subtitleLang: ['id', 'en'],
+    embedType: 'youtube',
+    embedId: 'SkIwLPr_T5g',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'SkIwLPr_T5g' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.elephantDream }
+    ]
   },
   {
-    id: 105, title: 'Link Click Season 3', titleCN: '时光代理人', type: 'donghua',
-    cover: 'https://images.unsplash.com/photo-1501139083538-0139583c060f?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1501139083538-0139583c060f?w=1920&h=800&fit=crop',
-    synopsis: 'Cheng Xiaoshi dan Lu Guang menghadapi misteri baru yang berbahaya. Waktu terus berputar, tapi apakah mereka bisa mengubah takdir?',
-    genre: ['Mystery', 'Drama'], year: 2025, status: 'ongoing', episodes: 12, currentEpisode: 5,
-    rating: 9.0, hasSubtitle: true, hasDubbing: true, subtitleLang: ['id', 'en'], quality: ['360p', '480p', '720p', '1080p'],
-    videoUrl: videoSources.sample3
+    id: 105,
+    title: 'Apotheosis / Bai Lian Cheng Shen',
+    titleCN: '百炼成神',
+    type: 'donghua',
+    cover: 'https://i.ytimg.com/vi/cQ2ykPJNEwk/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/cQ2ykPJNEwk/maxresdefault.jpg',
+    synopsis: 'Luo Zheng adalah putra dari keluarga terpandang yang jatuh menjadi budak. Dengan tekad kuat, dia memulai perjalanan untuk menjadi dewa.',
+    genre: ['Action', 'Fantasy', 'Drama'],
+    year: 2020,
+    status: 'ongoing',
+    episodes: 120,
+    currentEpisode: 110,
+    rating: 8.4,
+    hasSubtitle: true,
+    subtitleLang: ['id', 'en'],
+    embedType: 'youtube',
+    embedId: 'cQ2ykPJNEwk',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'cQ2ykPJNEwk' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.sintel }
+    ]
+  },
+  {
+    id: 106,
+    title: 'Swallowed Star / Tunshi Xingkong',
+    titleCN: '吞噬星空',
+    type: 'donghua',
+    cover: 'https://i.ytimg.com/vi/8D5XyhzGhv4/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/8D5XyhzGhv4/maxresdefault.jpg',
+    synopsis: 'Di masa depan, bumi diserang oleh monster. Luo Feng bermimpi menjadi Warrior dan melindungi keluarganya.',
+    genre: ['Sci-Fi', 'Action', 'Fantasy'],
+    year: 2020,
+    status: 'ongoing',
+    episodes: 200,
+    currentEpisode: 180,
+    rating: 8.8,
+    hasSubtitle: true,
+    subtitleLang: ['id', 'en'],
+    embedType: 'youtube',
+    embedId: '8D5XyhzGhv4',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: '8D5XyhzGhv4' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.bigBuckBunny }
+    ]
   }
 ];
 
-// Short Drama Data - Like DramaBox/iQIYI/Melolo (Vertical Format Short Episodes)
+// Anime Data
+const animeData = [
+  {
+    id: 1,
+    title: 'Solo Leveling',
+    titleJP: '俺だけレベルアップな件',
+    type: 'anime',
+    cover: 'https://i.ytimg.com/vi/GyIAMt1AXTQ/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/GyIAMt1AXTQ/maxresdefault.jpg',
+    synopsis: 'Sung Jinwoo adalah hunter terlemah rank E. Setelah hampir mati di dungeon, dia mendapat kekuatan misterius untuk "level up" tanpa batas.',
+    genre: ['Action', 'Fantasy', 'Adventure'],
+    year: 2024,
+    status: 'ongoing',
+    episodes: 24,
+    currentEpisode: 12,
+    rating: 9.5,
+    hasSubtitle: true,
+    subtitleLang: ['id', 'en'],
+    embedType: 'youtube',
+    embedId: 'GyIAMt1AXTQ',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'GyIAMt1AXTQ' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.sintel }
+    ]
+  },
+  {
+    id: 2,
+    title: 'Demon Slayer: Kimetsu no Yaiba',
+    titleJP: '鬼滅の刃',
+    type: 'anime',
+    cover: 'https://i.ytimg.com/vi/VQGCKyvzIM4/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/VQGCKyvzIM4/maxresdefault.jpg',
+    synopsis: 'Tanjiro Kamado bertekad membalas dendam keluarganya yang dibunuh iblis dan mengembalikan adiknya yang berubah menjadi iblis.',
+    genre: ['Action', 'Fantasy', 'Drama'],
+    year: 2019,
+    status: 'ongoing',
+    episodes: 55,
+    currentEpisode: 55,
+    rating: 9.3,
+    hasSubtitle: true,
+    subtitleLang: ['id', 'en'],
+    embedType: 'youtube',
+    embedId: 'VQGCKyvzIM4',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'VQGCKyvzIM4' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.bigBuckBunny }
+    ]
+  },
+  {
+    id: 3,
+    title: 'Jujutsu Kaisen',
+    titleJP: '呪術廻戦',
+    type: 'anime',
+    cover: 'https://i.ytimg.com/vi/4A_X-Dvl0ws/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/4A_X-Dvl0ws/maxresdefault.jpg',
+    synopsis: 'Itadori Yuji menelan jari Raja Kutukan Sukuna dan memasuki dunia jujutsu sorcerer untuk mengumpulkan semua jari Sukuna.',
+    genre: ['Action', 'Supernatural', 'Dark Fantasy'],
+    year: 2020,
+    status: 'ongoing',
+    episodes: 48,
+    currentEpisode: 48,
+    rating: 9.2,
+    hasSubtitle: true,
+    subtitleLang: ['id', 'en'],
+    embedType: 'youtube',
+    embedId: '4A_X-Dvl0ws',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: '4A_X-Dvl0ws' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.tearsOfSteel }
+    ]
+  },
+  {
+    id: 4,
+    title: 'One Piece',
+    titleJP: 'ワンピース',
+    type: 'anime',
+    cover: 'https://i.ytimg.com/vi/MCb13lbVGE0/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/MCb13lbVGE0/maxresdefault.jpg',
+    synopsis: 'Monkey D. Luffy bermimpi menjadi Raja Bajak Laut dan menemukan harta karun legendaris One Piece.',
+    genre: ['Action', 'Adventure', 'Comedy'],
+    year: 1999,
+    status: 'ongoing',
+    episodes: 1100,
+    currentEpisode: 1100,
+    rating: 9.0,
+    hasSubtitle: true,
+    subtitleLang: ['id', 'en'],
+    embedType: 'youtube',
+    embedId: 'MCb13lbVGE0',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'MCb13lbVGE0' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.elephantDream }
+    ]
+  },
+  {
+    id: 5,
+    title: 'Attack on Titan',
+    titleJP: '進撃の巨人',
+    type: 'anime',
+    cover: 'https://i.ytimg.com/vi/MGRm4IzK1SQ/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/MGRm4IzK1SQ/maxresdefault.jpg',
+    synopsis: 'Umat manusia hidup di dalam tembok raksasa untuk berlindung dari Titan. Eren Yeager bertekad memusnahkan semua Titan.',
+    genre: ['Action', 'Dark Fantasy', 'Drama'],
+    year: 2013,
+    status: 'completed',
+    episodes: 87,
+    currentEpisode: 87,
+    rating: 9.4,
+    hasSubtitle: true,
+    subtitleLang: ['id', 'en'],
+    embedType: 'youtube',
+    embedId: 'MGRm4IzK1SQ',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'MGRm4IzK1SQ' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.sintel }
+    ]
+  },
+  {
+    id: 6,
+    title: 'Spy x Family',
+    titleJP: 'スパイファミリー',
+    type: 'anime',
+    cover: 'https://i.ytimg.com/vi/ofXigq9aIpo/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/ofXigq9aIpo/maxresdefault.jpg',
+    synopsis: 'Mata-mata terbaik harus membentuk keluarga palsu dengan telepat dan pembunuh untuk misi rahasianya.',
+    genre: ['Comedy', 'Action', 'Slice of Life'],
+    year: 2022,
+    status: 'ongoing',
+    episodes: 37,
+    currentEpisode: 37,
+    rating: 8.8,
+    hasSubtitle: true,
+    subtitleLang: ['id', 'en'],
+    embedType: 'youtube',
+    embedId: 'ofXigq9aIpo',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'ofXigq9aIpo' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.bigBuckBunny }
+    ]
+  }
+];
+
+// Short Drama Data (Like DramaBox/Melolo)
 const dramaData = [
   {
-    id: 201, title: 'CEO Jatuh Cinta Pada Pelayan', titleCN: '霸道总裁爱上我', type: 'drama',
-    cover: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=1920&h=800&fit=crop',
-    synopsis: 'Gadis biasa bekerja sebagai pelayan di mansion CEO dingin. Tanpa disangka, CEO jatuh cinta padanya.',
-    genre: ['Romance', 'Drama'], year: 2024, status: 'completed', episodes: 80, currentEpisode: 80,
-    rating: 8.9, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
-    videoUrl: videoSources.sample1, isVertical: true, episodeDuration: '1-2 menit'
+    id: 201,
+    title: 'CEO Jatuh Cinta Pada Pelayan',
+    titleCN: '霸道总裁爱上我',
+    type: 'drama',
+    cover: 'https://i.ytimg.com/vi/cjvHrBG8IaU/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/cjvHrBG8IaU/maxresdefault.jpg',
+    synopsis: 'Wanita biasa bekerja di mansion CEO yang dingin dan arogan. Tanpa disangka, CEO jatuh cinta padanya.',
+    genre: ['Romance', 'Drama'],
+    year: 2024,
+    status: 'completed',
+    episodes: 80,
+    currentEpisode: 80,
+    rating: 8.9,
+    hasSubtitle: true,
+    subtitleLang: ['id'],
+    isVertical: true,
+    episodeDuration: '1-2 menit',
+    embedType: 'youtube',
+    embedId: 'cjvHrBG8IaU',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'cjvHrBG8IaU' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.bigBuckBunny }
+    ]
   },
   {
-    id: 202, title: 'Suamiku Ternyata Miliarder', titleCN: '我的老公是亿万富翁', type: 'drama',
-    cover: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=1920&h=800&fit=crop',
-    synopsis: 'Menikah dengan pria biasa, tapi ternyata suaminya adalah pewaris kerajaan bisnis tersembunyi.',
-    genre: ['Romance', 'Drama'], year: 2024, status: 'completed', episodes: 100, currentEpisode: 100,
-    rating: 9.1, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
-    videoUrl: videoSources.sample2, isVertical: true, episodeDuration: '1-2 menit'
+    id: 202,
+    title: 'Suamiku Ternyata Miliarder',
+    titleCN: '我的老公是亿万富翁',
+    type: 'drama',
+    cover: 'https://i.ytimg.com/vi/LTz1TrVQVgE/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/LTz1TrVQVgE/maxresdefault.jpg',
+    synopsis: 'Menikah dengan pria biasa, ternyata suaminya adalah pewaris kerajaan bisnis tersembunyi.',
+    genre: ['Romance', 'Drama', 'Comedy'],
+    year: 2024,
+    status: 'completed',
+    episodes: 100,
+    currentEpisode: 100,
+    rating: 9.1,
+    hasSubtitle: true,
+    subtitleLang: ['id'],
+    isVertical: true,
+    episodeDuration: '1-2 menit',
+    embedType: 'youtube',
+    embedId: 'LTz1TrVQVgE',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'LTz1TrVQVgE' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.sintel }
+    ]
   },
   {
-    id: 203, title: 'Balas Dendam Sang Putri', titleCN: '公主复仇记', type: 'drama',
-    cover: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&h=800&fit=crop',
-    synopsis: 'Putri kerajaan yang difitnah kembali untuk membalas dendam kepada mereka yang mengkhianatinya.',
-    genre: ['Historical', 'Drama'], year: 2024, status: 'ongoing', episodes: 120, currentEpisode: 75,
-    rating: 9.2, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
-    videoUrl: videoSources.sample3, isVertical: true, episodeDuration: '1-2 menit'
+    id: 203,
+    title: 'Balas Dendam Sang Putri',
+    titleCN: '公主复仇记',
+    type: 'drama',
+    cover: 'https://i.ytimg.com/vi/Mz3eG_aICpM/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/Mz3eG_aICpM/maxresdefault.jpg',
+    synopsis: 'Putri kerajaan yang difitnah kembali untuk membalas dendam kepada pengkhianat.',
+    genre: ['Historical', 'Drama', 'Revenge'],
+    year: 2024,
+    status: 'ongoing',
+    episodes: 120,
+    currentEpisode: 75,
+    rating: 9.2,
+    hasSubtitle: true,
+    subtitleLang: ['id'],
+    isVertical: true,
+    episodeDuration: '1-2 menit',
+    embedType: 'youtube',
+    embedId: 'Mz3eG_aICpM',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'Mz3eG_aICpM' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.tearsOfSteel }
+    ]
   },
   {
-    id: 204, title: 'Cinderella Modern', titleCN: '现代灰姑娘', type: 'drama',
-    cover: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1920&h=800&fit=crop',
+    id: 204,
+    title: 'Cinderella Modern',
+    titleCN: '现代灰姑娘',
+    type: 'drama',
+    cover: 'https://i.ytimg.com/vi/J9DcT8HK0CY/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/J9DcT8HK0CY/maxresdefault.jpg',
     synopsis: 'Gadis miskin bertemu pangeran tampan di pesta topeng. Kisah cinta modern yang penuh drama.',
-    genre: ['Romance', 'Comedy'], year: 2025, status: 'ongoing', episodes: 90, currentEpisode: 45,
-    rating: 8.7, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
-    videoUrl: videoSources.sample4, isVertical: true, episodeDuration: '1-2 menit'
+    genre: ['Romance', 'Comedy'],
+    year: 2025,
+    status: 'ongoing',
+    episodes: 90,
+    currentEpisode: 45,
+    rating: 8.7,
+    hasSubtitle: true,
+    subtitleLang: ['id'],
+    isVertical: true,
+    episodeDuration: '1-2 menit',
+    embedType: 'youtube',
+    embedId: 'J9DcT8HK0CY',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'J9DcT8HK0CY' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.elephantDream }
+    ]
   },
   {
-    id: 205, title: 'Mantan Suamiku CEO', titleCN: '前夫是总裁', type: 'drama',
-    cover: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1920&h=800&fit=crop',
-    synopsis: 'Setelah bercerai, dia menyadari mantan suaminya adalah CEO perusahaan tempat dia bekerja.',
-    genre: ['Romance', 'Drama'], year: 2024, status: 'completed', episodes: 85, currentEpisode: 85,
-    rating: 8.8, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
-    videoUrl: videoSources.sample1, isVertical: true, episodeDuration: '1-2 menit'
-  },
-  {
-    id: 206, title: 'Istri Kontrak CEO Dingin', titleCN: '冷总裁的契约妻', type: 'drama',
-    cover: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=1920&h=800&fit=crop',
+    id: 205,
+    title: 'Istri Kontrak CEO Dingin',
+    titleCN: '冷总裁的契约妻',
+    type: 'drama',
+    cover: 'https://i.ytimg.com/vi/QwievZ1Tx-8/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/QwievZ1Tx-8/maxresdefault.jpg',
     synopsis: 'Terpaksa menikah kontrak dengan CEO yang dingin, tapi perlahan hati mereka meleleh.',
-    genre: ['Romance', 'Drama'], year: 2025, status: 'ongoing', episodes: 100, currentEpisode: 60,
-    rating: 9.0, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
-    videoUrl: videoSources.sample2, isVertical: true, episodeDuration: '1-2 menit'
+    genre: ['Romance', 'Drama'],
+    year: 2025,
+    status: 'ongoing',
+    episodes: 100,
+    currentEpisode: 60,
+    rating: 9.0,
+    hasSubtitle: true,
+    subtitleLang: ['id'],
+    isVertical: true,
+    episodeDuration: '1-2 menit',
+    embedType: 'youtube',
+    embedId: 'QwievZ1Tx-8',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'QwievZ1Tx-8' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.bigBuckBunny }
+    ]
   },
   {
-    id: 207, title: 'Kembalinya Sang Pewaris', titleCN: '继承人归来', type: 'drama',
-    cover: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=800&fit=crop',
-    synopsis: 'Pewaris yang dibuang keluarga kembali dengan identitas baru untuk mengambil apa yang seharusnya miliknya.',
-    genre: ['Drama', 'Revenge'], year: 2024, status: 'completed', episodes: 95, currentEpisode: 95,
-    rating: 9.3, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
-    videoUrl: videoSources.sample3, isVertical: true, episodeDuration: '1-2 menit'
-  },
-  {
-    id: 208, title: 'Cinta Terlarang dengan Bos', titleCN: '与老板的禁忌爱情', type: 'drama',
-    cover: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=600&fit=crop',
-    banner: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1920&h=800&fit=crop',
-    synopsis: 'Karyawan baru jatuh cinta pada bosnya yang tampan. Hubungan terlarang di kantor yang penuh drama.',
-    genre: ['Romance', 'Office'], year: 2025, status: 'ongoing', episodes: 80, currentEpisode: 35,
-    rating: 8.6, hasSubtitle: true, hasDubbing: false, subtitleLang: ['id'], quality: ['720p', '1080p'],
-    videoUrl: videoSources.sample4, isVertical: true, episodeDuration: '1-2 menit'
+    id: 206,
+    title: 'Kembalinya Sang Pewaris',
+    titleCN: '继承人归来',
+    type: 'drama',
+    cover: 'https://i.ytimg.com/vi/DwF6xxLBFYU/maxresdefault.jpg',
+    banner: 'https://i.ytimg.com/vi/DwF6xxLBFYU/maxresdefault.jpg',
+    synopsis: 'Pewaris yang dibuang keluarga kembali dengan identitas baru untuk mengambil kembali haknya.',
+    genre: ['Drama', 'Revenge', 'Romance'],
+    year: 2024,
+    status: 'completed',
+    episodes: 95,
+    currentEpisode: 95,
+    rating: 9.3,
+    hasSubtitle: true,
+    subtitleLang: ['id'],
+    isVertical: true,
+    episodeDuration: '1-2 menit',
+    embedType: 'youtube',
+    embedId: 'DwF6xxLBFYU',
+    servers: [
+      { name: 'Server 1', type: 'youtube', id: 'DwF6xxLBFYU' },
+      { name: 'Server 2', type: 'direct', url: embedSources.direct.sintel }
+    ]
   }
 ];
 
 const allContent = [...animeData, ...donghuaData, ...dramaData];
 
-// Generate episodes
+// Generate episodes with embed sources
 const generateEpisodes = (total, id) => {
   const content = allContent.find(c => c.id === id);
-  const baseVideo = content?.videoUrl || videoSources.sample1;
-  const videoPool = [videoSources.sample1, videoSources.sample2, videoSources.sample3, videoSources.sample4];
+  if (!content) return [];
+
+  const servers = content.servers || [];
 
   return Array.from({ length: total }, (_, i) => ({
     id: `${id}-${i + 1}`,
     number: i + 1,
     title: `Episode ${i + 1}`,
-    duration: content?.isVertical ? '1:30' : '24:00',
+    duration: content.isVertical ? '1:30' : '24:00',
     thumbnail: `https://picsum.photos/seed/${id}${i}/320/180`,
-    videoUrl: i === 0 ? baseVideo : videoPool[i % videoPool.length]
+    embedType: content.embedType,
+    embedId: content.embedId,
+    servers: servers
   }));
+};
+
+// Get embed URL
+const getEmbedUrl = (content, server = 0) => {
+  if (!content || !content.servers || !content.servers[server]) {
+    return embedSources.direct.bigBuckBunny;
+  }
+
+  const srv = content.servers[server];
+  if (srv.type === 'youtube') {
+    return embedSources.youtube(srv.id);
+  } else if (srv.type === 'dailymotion') {
+    return embedSources.dailymotion(srv.id);
+  } else {
+    return srv.url;
+  }
 };
 
 // Export
@@ -255,5 +541,6 @@ window.AppData = {
   dramaData,
   allContent,
   generateEpisodes,
-  videoSources
+  embedSources,
+  getEmbedUrl
 };
